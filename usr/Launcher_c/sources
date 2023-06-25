@@ -1,0 +1,15 @@
+TARGETNAME=launcher
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+USE_MFC=1
+UMTYPE=windows
+
+
+TARGETLIBS=$(SDK_LIB_PATH)\shell32.lib
+
+MSC_WARNING_LEVEL=-W3 -WX
+
+SOURCES=launcher.cpp \
+	launcherdlg.cpp \
+	launcher.rc \
+	idioma.cpp
