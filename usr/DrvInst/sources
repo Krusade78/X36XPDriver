@@ -1,0 +1,21 @@
+TARGETNAME=DrvInst
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+UMTYPE=windows
+UMENTRY=winmain
+
+TARGETLIBS=$(SDK_LIB_PATH)\setupapi.lib \
+		$(SDK_LIB_PATH)\ole32.lib \
+		$(DDK_LIB_PATH)\dxguid.lib \
+		$(DDK_LIB_PATH)\dinput8.lib \
+		$(DDK_LIB_PATH)\newdev.lib
+
+MSC_WARNING_LEVEL=-W3 -WX
+
+SOURCES=instdrv.cpp   \
+		instalar.cpp  \
+		desinstalar.cpp  \
+		joyConfig.cpp  \
+	        instdrv.rc \
+		idioma.cpp
+
