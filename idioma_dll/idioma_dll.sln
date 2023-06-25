@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idioma_dll", "idioma_dll.vcproj", "{340C8248-CAB9-4174-986E-248502204D4F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{340C8248-CAB9-4174-986E-248502204D4F}.Debug.ActiveCfg = Debug|Win32
+		{340C8248-CAB9-4174-986E-248502204D4F}.Debug.Build.0 = Debug|Win32
+		{340C8248-CAB9-4174-986E-248502204D4F}.Release.ActiveCfg = Release|Win32
+		{340C8248-CAB9-4174-986E-248502204D4F}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{340C8248-CAB9-4174-986E-248502204D4F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{340C8248-CAB9-4174-986E-248502204D4F}.Debug|Win32.Build.0 = Debug|Win32
+		{340C8248-CAB9-4174-986E-248502204D4F}.Release|Win32.ActiveCfg = Release|Win32
+		{340C8248-CAB9-4174-986E-248502204D4F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

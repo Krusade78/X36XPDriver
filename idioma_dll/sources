@@ -1,0 +1,15 @@
+TARGETNAME=x36_lng
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLENTRY=_DllMainCRTStartup
+DLLDEF=defs.def
+USE_MFC=1
+
+TARGETLIBS=$(SDK_LIB_PATH)\kernel32.lib
+
+MSC_WARNING_LEVEL=-W3 -WX
+
+SOURCES=idioma_dll.rc \
+		idioma_dll.cpp \
+		cidioma.cpp
+

@@ -1,0 +1,4 @@
+LIBRARY	ajd_lng
+EXPORTS
+	TraduceGlobal @1
+	TraduceLocal @2
