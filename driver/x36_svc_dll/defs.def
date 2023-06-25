@@ -1,0 +1,7 @@
+LIBRARY	ajd_svc
+EXPORTS
+	CompileAndLaunch	@1
+	Compile				@2
+	ComprobarJoysticks	@3
+	Recalibrate			@4
+	CargarDatos			@5

@@ -1,0 +1,14 @@
+TARGETNAME=x36_vmdf
+TARGETTYPE=DRIVER
+DRIVERTYPE=WDM
+TARGETPATH=obj
+
+SOURCES=hidfilter.c     \
+        hidfilter.rc	\
+		ioctl.c		\
+		io.c		\
+		acciones.c	\
+		cola.cpp	\
+		control.c	\
+		mapa.c		\
+		raton.c
