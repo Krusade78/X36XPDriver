@@ -1,0 +1,26 @@
+TARGETNAME=x36_cpl
+TARGETEXT=dll
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLENTRY=_DllMainCRTStartup
+
+TARGETLIBS=$(SDK_LIB_PATH)\kernel32.lib \
+			$(SDK_LIB_PATH)\user32.lib \
+			$(SDK_LIB_PATH)\uuid.lib \
+			$(SDK_LIB_PATH)\gdi32.lib \
+			$(SDK_LIB_PATH)\advapi32.lib \
+			$(SDK_LIB_PATH)\ole32.lib \
+			$(DDK_LIB_PATH)\dinput8.lib
+
+
+DLLDEF=defs.DEF
+
+SOURCES=ajd_cpl.rc    \
+        ajd_cpl.cpp   \
+        pages.cpp     \
+		dinfo.cpp	\
+		calibraje.cpp	\
+		sliderctrl.cpp	\
+		raton.cpp \
+		idioma.cpp
+

@@ -1,0 +1,8 @@
+DIRS= \
+     x36_cpl \
+     x36_hidg \
+     x36_kbf \
+     x36_service \
+     x36_vmd \
+     x36_vmdf \
+     x36_svc_dll
