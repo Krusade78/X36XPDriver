@@ -31,7 +31,7 @@ typedef	struct _ST_EJES {
 		BOOLEAN Incremental;
 		UCHAR Bandas[15];
 		UINT16 Indices[16];
-}MEJES,PMEJES;
+}MEJES,*PMEJES;
 
 //============================================================
 
@@ -40,15 +40,17 @@ typedef	struct _ST_EJES {
 	PNODO iniComandos;
 	PNODO finComandos;
 	CONF conf;
-	MBOTONES mapaBotones[2][3][3][2][36];
-	MEJES mapaEjes[2][3][3][4];
-	bool mapaToggles[2][3][3][4];
+	PMBOTONES mapaBotones;//[2][3][3][2][36];
+	PMEJES mapaEjes;//[2][3][3][4];
+	bool* mapaToggles; //[2][3][3][4];
 	char acelPed;
 
 	void LimpiarMemoria();
 	bool ProcesarLineaM(char* linea, UINT16 tam);
 	bool ProcesarLineaJ(char* linea, UINT16 tam,UCHAR* btn,UCHAR* pinkie,UCHAR* modo,UCHAR* amodo,UCHAR* pulsar);
 	bool ProcesarComandoM(char* comando, char* dato,UCHAR* acciones,UCHAR* reps,bool* holds);
+	int GetPosB(UCHAR a, UCHAR b, UCHAR c, UCHAR d, UCHAR e);
+	int GetPosE(UCHAR a, UCHAR b, UCHAR c, UCHAR d);
 	bool ProcesarComandoJ(char* comando,char sig,UCHAR btn,UCHAR* pinkie,UCHAR* modo,UCHAR* amodo,UCHAR* pulsar,char* tipo,bool* macro);
 	bool ProcesarMacro(char* nombre,UCHAR btn,UCHAR pinkie,UCHAR modo,UCHAR amodo,UCHAR pulsar,char tipo);
 	bool ComprobarBandas();

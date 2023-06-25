@@ -133,11 +133,11 @@ DpcRoutineLectura(
 	rctx=(PREAD_CONTEXT)DeferredContext;
 	Irp = rctx->Irp;
 	devExt = (PDEVICE_EXTENSION) rctx->DeviceObject->DeviceExtension;
-	ExFreePool(DeferredContext);
+	ExFreePoolWithTag(DeferredContext,(ULONG)'npHV');
 
 	IrpStack = IoGetCurrentIrpStackLocation(Irp);
 
-	if((devExt->TickRatonTimer++>=devExt->TickRaton) || IrpStack->Parameters.DeviceIoControl.OutputBufferLength==4) {
+	if(((devExt->TickRatonTimer++)>=devExt->TickRaton) || IrpStack->Parameters.DeviceIoControl.OutputBufferLength==4) {
 		if(IrpStack->Parameters.DeviceIoControl.OutputBufferLength<(sizeof(devExt->stRaton)+1))
 		{
 		    status=STATUS_BUFFER_TOO_SMALL;

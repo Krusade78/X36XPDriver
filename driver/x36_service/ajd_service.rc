@@ -30,8 +30,8 @@ LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_MODERN
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 4,0,0,0
- PRODUCTVERSION 5,0,1,0
+ FILEVERSION 4,0,1,0
+ PRODUCTVERSION 5,0,2,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x9L
@@ -47,12 +47,12 @@ BEGIN
         BLOCK "040004b0"
         BEGIN
             VALUE "FileDescription", "Servicio de iniciación"
-            VALUE "FileVersion", "4, 0, 0, 0"
+            VALUE "FileVersion", "4, 0, 1, 0"
             VALUE "InternalName", "x36_svc"
             VALUE "LegalCopyright", "© Alfredo Costalago. All rights reserved"
             VALUE "OriginalFilename", "x36_svc.exe"
             VALUE "ProductName", "X36 driver"
-            VALUE "ProductVersion", "5, 0, 1, 0"
+            VALUE "ProductVersion", "5, 0, 2, 0"
         END
     END
     BLOCK "VarFileInfo"

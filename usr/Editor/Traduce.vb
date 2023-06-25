@@ -1,21 +1,22 @@
 Public Class Traduce
 
     Public Shared Function Msg(ByVal id1 As Integer, ByVal id2 As Integer, ByVal tipo As Microsoft.VisualBasic.MsgBoxStyle) As Microsoft.VisualBasic.MsgBoxResult
-        Dim texto1, texto2 As String
+        Dim texto1 As String = ""
+        Dim texto2 As String = ""
         Traducir(id1, texto1)
         Traducir(id2, texto2)
         Return MsgBox(texto1, tipo, texto2)
     End Function
 
     Public Shared Function Txt(ByVal id As Integer) As String
-        Dim texto As String
+        Dim texto As String = ""
         Traducir(id, texto)
         Txt = texto
     End Function
 
     Private Shared Sub Traducir(ByVal ID As Integer, ByRef texto As String)
-        Dim nombre As String
-        Dim ruta As String
+        Dim nombre As String = ""
+        Dim ruta As String = ""
         CogerNombreIdioma(nombre)
         If Not BuscarArchivo(nombre, ruta) Then
             texto = ""

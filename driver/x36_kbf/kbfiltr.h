@@ -99,17 +99,20 @@ typedef struct _DEVICE_EXTENSION
 // Prototypes
 //
 
+//DRIVER_ADD_DEVICE KbFilter_AddDevice;
 NTSTATUS
 KbFilter_AddDevice(
     IN PDRIVER_OBJECT DriverObject,
     IN PDEVICE_OBJECT BusDeviceObject
     );
 
+//DRIVER_UNLOAD KbFilter_Unload;
 VOID
 KbFilter_Unload (
     IN PDRIVER_OBJECT DriverObject
     );
 
+//DRIVER_DISPATCH KbFilter_DispatchPassThrough;
 NTSTATUS
 KbFilter_DispatchPassThrough(
         IN PDEVICE_OBJECT DeviceObject,
@@ -128,6 +131,7 @@ KbFilter_PnP (
     IN PIRP Irp
     );
 
+//IO_COMPLETION_ROUTINE KbFilter_Complete;
 NTSTATUS
 KbFilter_Complete(
     IN PDEVICE_OBJECT   DeviceObject,

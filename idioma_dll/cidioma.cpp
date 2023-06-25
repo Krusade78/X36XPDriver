@@ -1,6 +1,7 @@
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// Algunos constructores CString serán explícitos
 #define _AFX_ALL_WARNINGS
 #include "../../inc/mfc42/afxwin.h"         // Componentes principales y estándar de MFC
+//#include <afxwin.h>
 #include "cidioma.h"
 
 

@@ -109,6 +109,7 @@ KbFilter_AddDevice(
 	// Registrar x36 device
 	{
 	    PX36DEVICE_EXTENSION	x36DevExt;
+	    PDEVICE_OBJECT          objDevice;
 		UNICODE_STRING      DeviceName,link;
 
 		RtlInitUnicodeString(&DeviceName, L"\\Device\\X36_Kbf");
@@ -120,9 +121,10 @@ KbFilter_AddDevice(
                             FILE_DEVICE_UNKNOWN,   
                             0,                     
                             FALSE,                
-                            &devExt->x36Obj              
+                            &objDevice             
                             );
 		if (NT_SUCCESS( status )) {
+			devExt->x36Obj=objDevice;
 			x36DevExt = (PX36DEVICE_EXTENSION)devExt->x36Obj->DeviceExtension;
 			x36DevExt->kDevExt = devExt;
 

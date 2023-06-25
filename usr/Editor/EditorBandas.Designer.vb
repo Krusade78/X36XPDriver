@@ -104,6 +104,7 @@ Partial Class EditorBandas
         'ButtonG
         '
         Me.ButtonG.BackColor = System.Drawing.Color.Linen
+        Me.ButtonG.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.ButtonG.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonG.Location = New System.Drawing.Point(21, 452)
         Me.ButtonG.Name = "ButtonG"

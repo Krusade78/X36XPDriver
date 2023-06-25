@@ -30,7 +30,7 @@ VOID ColaBorrar(PCOLA cola)
 	if(cola->principio!=NULL) {
 		while(!ColaBorrarNodo1(cola));
 	}
-	ExFreePool((PVOID)cola);
+	ExFreePoolWithTag((PVOID)cola,(ULONG)'lcHV');
 }
 
 BOOLEAN ColaBorrarNodo1(PCOLA cola)
@@ -40,7 +40,7 @@ BOOLEAN ColaBorrarNodo1(PCOLA cola)
 		cola->principio=primero->link;
 		if(primero->link==NULL) cola->fin=cola->principio;
 		if(primero->Datos!=NULL) ExFreePool(primero->Datos);
-		ExFreePool((PVOID)primero);
+		ExFreePoolWithTag((PVOID)primero,(ULONG)'lcHV');
 		if(cola->principio==NULL) {
 			return TRUE; // Cola vacia
 		}
@@ -107,7 +107,7 @@ BOOLEAN ColaBorrarNodo(PCOLA cola,PNODO nodo, PNODO anterior)
 		}
 		if(nodo->Datos!=NULL) ExFreePool(nodo->Datos);
 
-		ExFreePool(nodo);
+		ExFreePoolWithTag(nodo,(ULONG)'lcHV');
 	}
 
 	return FALSE; // Cola no vacia

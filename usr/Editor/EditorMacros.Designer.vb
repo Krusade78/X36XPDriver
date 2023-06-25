@@ -153,9 +153,9 @@ Partial Class EditorMacros
         Me.Button17.BackColor = System.Drawing.Color.Linen
         Me.Button17.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button17.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button17.Location = New System.Drawing.Point(13, 28)
+        Me.Button17.Location = New System.Drawing.Point(13, 26)
         Me.Button17.Name = "Button17"
-        Me.Button17.Size = New System.Drawing.Size(43, 18)
+        Me.Button17.Size = New System.Drawing.Size(43, 21)
         Me.Button17.TabIndex = 3
         Me.Button17.Text = "DLAY"
         Me.Button17.UseVisualStyleBackColor = False
@@ -173,8 +173,7 @@ Partial Class EditorMacros
         '
         Me.ToolStripStatusLabel1.Image = CType(resources.GetObject("ToolStripStatusLabel1.Image"), System.Drawing.Image)
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(127, 17)
-        Me.ToolStripStatusLabel1.Text = "ToolStripStatusLabel1"
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(16, 17)
         '
         'Button26
         '
@@ -191,6 +190,7 @@ Partial Class EditorMacros
         'Button27
         '
         Me.Button27.BackColor = System.Drawing.Color.AliceBlue
+        Me.Button27.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Button27.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button27.Location = New System.Drawing.Point(322, 19)
         Me.Button27.Name = "Button27"
@@ -238,7 +238,7 @@ Partial Class EditorMacros
         Me.Panel1.Controls.Add(Me.Button9)
         Me.Panel1.Location = New System.Drawing.Point(174, 159)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(159, 166)
+        Me.Panel1.Size = New System.Drawing.Size(159, 169)
         Me.Panel1.TabIndex = 19
         '
         'Label18
@@ -276,7 +276,7 @@ Partial Class EditorMacros
         Me.Button8.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button8.Location = New System.Drawing.Point(104, 69)
         Me.Button8.Name = "Button8"
-        Me.Button8.Size = New System.Drawing.Size(43, 18)
+        Me.Button8.Size = New System.Drawing.Size(43, 21)
         Me.Button8.TabIndex = 22
         Me.Button8.Text = "MS3D"
         Me.Button8.UseVisualStyleBackColor = False
@@ -300,7 +300,7 @@ Partial Class EditorMacros
         Me.Button3.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button3.Location = New System.Drawing.Point(9, 47)
         Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(43, 18)
+        Me.Button3.Size = New System.Drawing.Size(43, 21)
         Me.Button3.TabIndex = 17
         Me.Button3.Text = "MS1U"
         Me.Button3.UseVisualStyleBackColor = False
@@ -321,7 +321,7 @@ Partial Class EditorMacros
         Me.Button6.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button6.Location = New System.Drawing.Point(9, 69)
         Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(43, 18)
+        Me.Button6.Size = New System.Drawing.Size(43, 21)
         Me.Button6.TabIndex = 20
         Me.Button6.Text = "MS1D"
         Me.Button6.UseVisualStyleBackColor = False
@@ -333,7 +333,7 @@ Partial Class EditorMacros
         Me.Button12.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button12.Location = New System.Drawing.Point(104, 142)
         Me.Button12.Name = "Button12"
-        Me.Button12.Size = New System.Drawing.Size(43, 18)
+        Me.Button12.Size = New System.Drawing.Size(43, 21)
         Me.Button12.TabIndex = 16
         Me.Button12.Text = "MSYD"
         Me.Button12.UseVisualStyleBackColor = False
@@ -345,7 +345,7 @@ Partial Class EditorMacros
         Me.Button5.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button5.Location = New System.Drawing.Point(104, 47)
         Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(43, 18)
+        Me.Button5.Size = New System.Drawing.Size(43, 21)
         Me.Button5.TabIndex = 19
         Me.Button5.Text = "MS3U"
         Me.Button5.UseVisualStyleBackColor = False
@@ -357,7 +357,7 @@ Partial Class EditorMacros
         Me.Button11.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button11.Location = New System.Drawing.Point(9, 141)
         Me.Button11.Name = "Button11"
-        Me.Button11.Size = New System.Drawing.Size(43, 18)
+        Me.Button11.Size = New System.Drawing.Size(43, 21)
         Me.Button11.TabIndex = 15
         Me.Button11.Text = "MSYU"
         Me.Button11.UseVisualStyleBackColor = False
@@ -369,7 +369,7 @@ Partial Class EditorMacros
         Me.Button7.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button7.Location = New System.Drawing.Point(57, 69)
         Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(43, 18)
+        Me.Button7.Size = New System.Drawing.Size(43, 21)
         Me.Button7.TabIndex = 21
         Me.Button7.Text = "MS2D"
         Me.Button7.UseVisualStyleBackColor = False
@@ -381,7 +381,7 @@ Partial Class EditorMacros
         Me.Button10.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button10.Location = New System.Drawing.Point(104, 120)
         Me.Button10.Name = "Button10"
-        Me.Button10.Size = New System.Drawing.Size(43, 18)
+        Me.Button10.Size = New System.Drawing.Size(43, 21)
         Me.Button10.TabIndex = 14
         Me.Button10.Text = "MSXR"
         Me.Button10.UseVisualStyleBackColor = False
@@ -393,7 +393,7 @@ Partial Class EditorMacros
         Me.Button4.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button4.Location = New System.Drawing.Point(57, 47)
         Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(43, 18)
+        Me.Button4.Size = New System.Drawing.Size(43, 21)
         Me.Button4.TabIndex = 18
         Me.Button4.Text = "MS2U"
         Me.Button4.UseVisualStyleBackColor = False
@@ -405,7 +405,7 @@ Partial Class EditorMacros
         Me.Button9.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button9.Location = New System.Drawing.Point(9, 119)
         Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(43, 18)
+        Me.Button9.Size = New System.Drawing.Size(43, 21)
         Me.Button9.TabIndex = 13
         Me.Button9.Text = "MSXL"
         Me.Button9.UseVisualStyleBackColor = False
@@ -430,7 +430,7 @@ Partial Class EditorMacros
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.Location = New System.Drawing.Point(21, 104)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(43, 18)
+        Me.Button1.Size = New System.Drawing.Size(43, 21)
         Me.Button1.TabIndex = 21
         Me.Button1.Text = "KEYD"
         Me.Button1.UseVisualStyleBackColor = False
@@ -442,7 +442,7 @@ Partial Class EditorMacros
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button2.Location = New System.Drawing.Point(88, 104)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(43, 18)
+        Me.Button2.Size = New System.Drawing.Size(43, 21)
         Me.Button2.TabIndex = 22
         Me.Button2.Text = "KEYU"
         Me.Button2.UseVisualStyleBackColor = False
@@ -557,7 +557,7 @@ Partial Class EditorMacros
         'Label15
         '
         Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(218, 56)
+        Me.Label15.Location = New System.Drawing.Point(219, 56)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(45, 13)
         Me.Label15.TabIndex = 10
@@ -631,9 +631,9 @@ Partial Class EditorMacros
         Me.Button31.BackColor = System.Drawing.Color.Linen
         Me.Button31.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button31.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button31.Location = New System.Drawing.Point(174, 76)
+        Me.Button31.Location = New System.Drawing.Point(174, 73)
         Me.Button31.Name = "Button31"
-        Me.Button31.Size = New System.Drawing.Size(43, 18)
+        Me.Button31.Size = New System.Drawing.Size(43, 21)
         Me.Button31.TabIndex = 3
         Me.Button31.Text = "DXPD"
         Me.Button31.UseVisualStyleBackColor = False
@@ -643,9 +643,9 @@ Partial Class EditorMacros
         Me.Button30.BackColor = System.Drawing.Color.Linen
         Me.Button30.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button30.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button30.Location = New System.Drawing.Point(174, 52)
+        Me.Button30.Location = New System.Drawing.Point(174, 49)
         Me.Button30.Name = "Button30"
-        Me.Button30.Size = New System.Drawing.Size(43, 18)
+        Me.Button30.Size = New System.Drawing.Size(43, 21)
         Me.Button30.TabIndex = 2
         Me.Button30.Text = "DXPU"
         Me.Button30.UseVisualStyleBackColor = False
@@ -655,9 +655,9 @@ Partial Class EditorMacros
         Me.Button29.BackColor = System.Drawing.Color.Linen
         Me.Button29.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button29.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button29.Location = New System.Drawing.Point(15, 76)
+        Me.Button29.Location = New System.Drawing.Point(15, 73)
         Me.Button29.Name = "Button29"
-        Me.Button29.Size = New System.Drawing.Size(43, 18)
+        Me.Button29.Size = New System.Drawing.Size(43, 21)
         Me.Button29.TabIndex = 1
         Me.Button29.Text = "DXBD"
         Me.Button29.UseVisualStyleBackColor = False
@@ -667,9 +667,9 @@ Partial Class EditorMacros
         Me.Button28.BackColor = System.Drawing.Color.Linen
         Me.Button28.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button28.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button28.Location = New System.Drawing.Point(15, 54)
+        Me.Button28.Location = New System.Drawing.Point(15, 50)
         Me.Button28.Name = "Button28"
-        Me.Button28.Size = New System.Drawing.Size(43, 18)
+        Me.Button28.Size = New System.Drawing.Size(43, 21)
         Me.Button28.TabIndex = 0
         Me.Button28.Text = "DXBU"
         Me.Button28.UseVisualStyleBackColor = False
@@ -748,9 +748,9 @@ Partial Class EditorMacros
         Me.Button18.BackColor = System.Drawing.Color.Linen
         Me.Button18.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button18.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button18.Location = New System.Drawing.Point(18, 28)
+        Me.Button18.Location = New System.Drawing.Point(18, 26)
         Me.Button18.Name = "Button18"
-        Me.Button18.Size = New System.Drawing.Size(48, 18)
+        Me.Button18.Size = New System.Drawing.Size(48, 21)
         Me.Button18.TabIndex = 9
         Me.Button18.Text = "SETK0"
         Me.Button18.UseVisualStyleBackColor = False
@@ -760,9 +760,9 @@ Partial Class EditorMacros
         Me.Button19.BackColor = System.Drawing.Color.Linen
         Me.Button19.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button19.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button19.Location = New System.Drawing.Point(88, 28)
+        Me.Button19.Location = New System.Drawing.Point(88, 26)
         Me.Button19.Name = "Button19"
-        Me.Button19.Size = New System.Drawing.Size(48, 18)
+        Me.Button19.Size = New System.Drawing.Size(48, 21)
         Me.Button19.TabIndex = 11
         Me.Button19.Text = "SETK1"
         Me.Button19.UseVisualStyleBackColor = False
@@ -772,9 +772,9 @@ Partial Class EditorMacros
         Me.Button20.BackColor = System.Drawing.Color.Linen
         Me.Button20.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button20.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button20.Location = New System.Drawing.Point(3, 48)
+        Me.Button20.Location = New System.Drawing.Point(3, 49)
         Me.Button20.Name = "Button20"
-        Me.Button20.Size = New System.Drawing.Size(48, 18)
+        Me.Button20.Size = New System.Drawing.Size(48, 21)
         Me.Button20.TabIndex = 13
         Me.Button20.Text = "SETM1"
         Me.Button20.UseVisualStyleBackColor = False
@@ -784,9 +784,9 @@ Partial Class EditorMacros
         Me.Button21.BackColor = System.Drawing.Color.Linen
         Me.Button21.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button21.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button21.Location = New System.Drawing.Point(53, 48)
+        Me.Button21.Location = New System.Drawing.Point(53, 49)
         Me.Button21.Name = "Button21"
-        Me.Button21.Size = New System.Drawing.Size(48, 18)
+        Me.Button21.Size = New System.Drawing.Size(48, 21)
         Me.Button21.TabIndex = 14
         Me.Button21.Text = "SETM2"
         Me.Button21.UseVisualStyleBackColor = False
@@ -796,9 +796,9 @@ Partial Class EditorMacros
         Me.Button22.BackColor = System.Drawing.Color.Linen
         Me.Button22.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button22.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button22.Location = New System.Drawing.Point(103, 48)
+        Me.Button22.Location = New System.Drawing.Point(103, 49)
         Me.Button22.Name = "Button22"
-        Me.Button22.Size = New System.Drawing.Size(48, 18)
+        Me.Button22.Size = New System.Drawing.Size(48, 21)
         Me.Button22.TabIndex = 15
         Me.Button22.Text = "SETM3"
         Me.Button22.UseVisualStyleBackColor = False
@@ -810,7 +810,7 @@ Partial Class EditorMacros
         Me.Button23.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button23.Location = New System.Drawing.Point(3, 72)
         Me.Button23.Name = "Button23"
-        Me.Button23.Size = New System.Drawing.Size(48, 18)
+        Me.Button23.Size = New System.Drawing.Size(48, 21)
         Me.Button23.TabIndex = 8
         Me.Button23.Text = "SETX1"
         Me.Button23.UseVisualStyleBackColor = False
@@ -822,7 +822,7 @@ Partial Class EditorMacros
         Me.Button24.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button24.Location = New System.Drawing.Point(53, 72)
         Me.Button24.Name = "Button24"
-        Me.Button24.Size = New System.Drawing.Size(48, 18)
+        Me.Button24.Size = New System.Drawing.Size(48, 21)
         Me.Button24.TabIndex = 10
         Me.Button24.Text = "SETX2"
         Me.Button24.UseVisualStyleBackColor = False
@@ -834,7 +834,7 @@ Partial Class EditorMacros
         Me.Button25.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button25.Location = New System.Drawing.Point(103, 72)
         Me.Button25.Name = "Button25"
-        Me.Button25.Size = New System.Drawing.Size(48, 18)
+        Me.Button25.Size = New System.Drawing.Size(48, 21)
         Me.Button25.TabIndex = 12
         Me.Button25.Text = "SETX3"
         Me.Button25.UseVisualStyleBackColor = False
@@ -891,7 +891,7 @@ Partial Class EditorMacros
         Me.Button13.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button13.Location = New System.Drawing.Point(27, 27)
         Me.Button13.Name = "Button13"
-        Me.Button13.Size = New System.Drawing.Size(43, 18)
+        Me.Button13.Size = New System.Drawing.Size(43, 21)
         Me.Button13.TabIndex = 7
         Me.Button13.Text = "HOLD"
         Me.Button13.UseVisualStyleBackColor = False
@@ -903,7 +903,7 @@ Partial Class EditorMacros
         Me.Button14.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button14.Location = New System.Drawing.Point(79, 27)
         Me.Button14.Name = "Button14"
-        Me.Button14.Size = New System.Drawing.Size(43, 18)
+        Me.Button14.Size = New System.Drawing.Size(43, 21)
         Me.Button14.TabIndex = 8
         Me.Button14.Text = "REPI"
         Me.Button14.UseVisualStyleBackColor = False
@@ -914,9 +914,9 @@ Partial Class EditorMacros
         Me.Button15.Enabled = False
         Me.Button15.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button15.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button15.Location = New System.Drawing.Point(27, 79)
+        Me.Button15.Location = New System.Drawing.Point(27, 77)
         Me.Button15.Name = "Button15"
-        Me.Button15.Size = New System.Drawing.Size(43, 18)
+        Me.Button15.Size = New System.Drawing.Size(43, 21)
         Me.Button15.TabIndex = 9
         Me.Button15.Text = "REPF"
         Me.Button15.UseVisualStyleBackColor = False
@@ -926,9 +926,9 @@ Partial Class EditorMacros
         Me.Button16.BackColor = System.Drawing.Color.Linen
         Me.Button16.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button16.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button16.Location = New System.Drawing.Point(5, 53)
+        Me.Button16.Location = New System.Drawing.Point(5, 52)
         Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(43, 18)
+        Me.Button16.Size = New System.Drawing.Size(43, 21)
         Me.Button16.TabIndex = 10
         Me.Button16.Text = "REPN"
         Me.Button16.UseVisualStyleBackColor = False

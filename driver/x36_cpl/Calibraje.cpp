@@ -3,7 +3,7 @@
 
 #include <windows.h>
 #include <winioctl.h>
-#include <dinput.h>
+#include "dinput.h"
 #include "Calibraje.h"
 #include "resource.h"
 #include "idioma.h"
@@ -568,7 +568,7 @@ void CCalibraje::EnviarCalibrar()
 		goto labcal;
 	}
 	FUNC Recalibrar=(FUNC)GetProcAddress(dll,"Recalibrate");
-	if(Comprobar!=NULL) {
+	if(Recalibrar!=NULL) {
 		if(!Recalibrar()) {
 			Traduce::Msg(NULL,LG_CPL_ERROR7,"CCalibraje::EnviarCalibrar[2]",MB_ICONERROR);
 		}

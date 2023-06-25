@@ -6,7 +6,7 @@ Module Name:
     x36.c
 
 --*/
-
+//IO_COMPLETION_ROUTINE LowerCompletionRoutineOut;
 NTSTATUS LowerCompletionRoutineOut(
     IN PDEVICE_OBJECT  DeviceObject,
     IN PIRP  Irp,
@@ -14,7 +14,7 @@ NTSTATUS LowerCompletionRoutineOut(
     )
 {
 	IoFreeIrp(Irp);
-	ExFreePool(Context);
+	ExFreePoolWithTag(Context,(ULONG)'f63X');
 	return STATUS_MORE_PROCESSING_REQUIRED;
 }
 

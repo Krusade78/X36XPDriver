@@ -75,10 +75,10 @@ HF_IoEscribirConfiguracion(
 		KIRQL irql;
 		KeAcquireSpinLock(&devExt->slEstado,&irql);
 		if(devExt->Configuracion!=NULL) {
-				ExFreePool(devExt->Configuracion);
+				ExFreePoolWithTag(devExt->Configuracion,(ULONG)'ppHV');
 				devExt->Configuracion=NULL;
 		}
-		devExt->Configuracion = ExAllocatePoolWithTag(PagedPool,sizeof(CONF),(ULONG)'ppHV');
+		devExt->Configuracion = ExAllocatePoolWithTag(NonPagedPool,sizeof(CONF),(ULONG)'ppHV');
 		if(devExt->Configuracion!=NULL) {
 			RtlCopyMemory(devExt->Configuracion,Irp->AssociatedIrp.SystemBuffer,sizeof(CONF));
 			devExt->Estado|=1;
@@ -180,7 +180,7 @@ HF_IoLeerConf(
 		KeAcquireSpinLock(&devExt->slEstado,&irql);
 		if(devExt->Configuracion!=NULL) {
 				RtlCopyMemory(Irp->AssociatedIrp.SystemBuffer,devExt->Configuracion,sizeof(CONF));
-				ExFreePool(devExt->Configuracion);
+				ExFreePoolWithTag(devExt->Configuracion,(ULONG)'ppHV');
 				devExt->Configuracion=NULL;
 				//devExt->Estado&=6;
 			KeReleaseSpinLock(&devExt->slEstado,irql);
@@ -275,24 +275,25 @@ ProcesarWrite(
 
 	// Ejes
 
-	{
-		KIRQL irql;
-
-		for(idx=0;idx<2;idx++) {
-			KeAcquireSpinLock(&idevExt->slPosicion,&irql);
-				cambios=TraducirGiratorio(idevExt,idx,(UCHAR)hidGameData->Ejes[idx]);
-			KeReleaseSpinLock(&idevExt->slPosicion,irql);
-			if(cambios!=0) {
-				AccionEje(devExt,idx,cambios-1);
-			}
+	for(idx=0;idx<2;idx++) {
+		KeAcquireSpinLock(&idevExt->slPosicion,&irql);
+			cambios=TraducirGiratorio(idevExt,idx,(UCHAR)hidGameData->Ejes[idx]);
+		KeReleaseSpinLock(&idevExt->slPosicion,irql);
+		if(cambios!=0) {
+			AccionEje(devExt,idx,cambios-1);
 		}
-		for(idx=0;idx<2;idx++) {
-			KeAcquireSpinLock(&idevExt->slPosicion,&irql);
-				cambios=TraducirGiratorio(idevExt,idx+2,hidGameData->Rotatorios[idx]);
-			KeReleaseSpinLock(&idevExt->slPosicion,irql);
-			if(cambios!=0) {
-				AccionEje(devExt,idx+2,cambios-1);
+	}
+	for(idx=0;idx<2;idx++) {
+		KeAcquireSpinLock(&idevExt->slPosicion,&irql);
+			if(hidGameData->Rotatorios[idx]==0) {
+				hidGameData->Rotatorios[idx]=127;
+			} else {
+				hidGameData->Rotatorios[idx]=hidGameData->Rotatorios[idx]+((hidGameData->Rotatorios[idx]<0)?127:128);
 			}
+			cambios=TraducirGiratorio(idevExt,idx+2,hidGameData->Rotatorios[idx]);
+		KeReleaseSpinLock(&idevExt->slPosicion,irql);
+		if(cambios!=0) {
+			AccionEje(devExt,idx+2,cambios-1);
 		}
 	}
 }
@@ -326,26 +327,26 @@ UCHAR TraducirGiratorio(
 			}
 		}
 	} else {
-		UCHAR posActual;
+		UINT16 posActual=1000;
 		UCHAR posant=0;
 		UCHAR idc;
 		nueva=255-nueva;
-		for(idc=0; idc<16; idc++) {
-			if(idc<15 && idevExt->MapaEjes[(UCHAR)idevExt->Pinkie][idevExt->Modos&0xf][idevExt->Modos>>4][eje].Bandas[idc]!=0) {
+		for(idc=0; idc<15; idc++) {
+			if(idevExt->MapaEjes[(UCHAR)idevExt->Pinkie][idevExt->Modos&0xf][idevExt->Modos>>4][eje].Bandas[idc]==0) {
+				break;
+			} else {
 				if(nueva>=posant && nueva<idevExt->MapaEjes[(UCHAR)idevExt->Pinkie][idevExt->Modos&0xf][idevExt->Modos>>4][eje].Bandas[idc]) {
 					posActual=idc;
 					break;
 				}
 				posant=idevExt->MapaEjes[(UCHAR)idevExt->Pinkie][idevExt->Modos&0xf][idevExt->Modos>>4][eje].Bandas[idc];
-			} else {
-				if(nueva>=posant && nueva<256) {
-					posActual=idc;
-					break;
-				}
 			}
 		}
-		if(posActual!=vieja) {
-			idevExt->posVieja[(UCHAR)idevExt->Pinkie][idevExt->Modos&0xf][idevExt->Modos>>4][eje]=posActual;
+		if(posActual==1000) {
+			if(nueva>=posant && nueva<256) posActual=idc;
+		}
+		if(posActual!=1000 && posActual!=vieja) {
+			idevExt->posVieja[(UCHAR)idevExt->Pinkie][idevExt->Modos&0xf][idevExt->Modos>>4][eje]=(UCHAR)posActual;
 			idn=posActual+1;
 		}
 	}

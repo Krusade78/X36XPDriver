@@ -36,13 +36,10 @@ void CRaton::Cambiar()
 {
 	HKEY key;
 	DWORD ret=1;
-	UCHAR buf;
+	UCHAR buf=70;
 	if(ERROR_SUCCESS==RegOpenKeyEx(HKEY_LOCAL_MACHINE,"SYSTEM\\CurrentControlSet\\Control\\MediaProperties\\PrivateProperties\\Joystick\\Calibrado",0,KEY_READ,&key))
 	{
-		if(ERROR_SUCCESS!=RegQueryValueEx(key,"TickRaton",0,NULL,(BYTE*)&buf,&ret))
-		{
-			buf=70;
-		}
+		RegQueryValueEx(key,"TickRaton",0,NULL,(BYTE*)&buf,&ret);
 		RegCloseKey(key);
 	}
 

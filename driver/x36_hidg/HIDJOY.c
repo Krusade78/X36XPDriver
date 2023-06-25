@@ -214,7 +214,7 @@ NTSTATUS HGM_JoystickConfig
      *  Set initial values of LastGoodAxis so that the device will not show
      *  up as present until we get at least one valid poll.
      */
-    for( Idx = MAX_AXES; Idx >= 0; Idx-- )
+    for( Idx = 0; Idx < MAX_AXES; Idx++ )
     {
         DeviceExtension->LastGoodAxis[Idx] = AXIS_TIMEOUT;
     }
@@ -274,7 +274,7 @@ const unsigned char cAxisIndexTable[9] = { 0, 0, 1, 0, 2, 0, 0, 0, 3 };
      */
 
     DeviceExtension->resistiveInputMask = 0;
-    for( nAxis=MAX_AXES; nAxis>=0; nAxis-- )
+    for( nAxis=0; nAxis< MAX_AXES; nAxis++ )
     {
         DeviceExtension->AxisMap[nAxis] = INVALID_INDEX;
     }
@@ -661,7 +661,7 @@ NTSTATUS HGM_GenerateReport
     {
         ntStatus   = STATUS_BUFFER_TOO_SMALL;
         *pCbReport = 0x0;
-        RtlZeroMemory(rgGameReport, sizeof(rgGameReport));
+        RtlZeroMemory(rgGameReport, sizeof(UCHAR)*MAXBYTES_GAME_REPORT);
     } else
     {
         *pCbReport = (USHORT) (pucReport - rgGameReport);

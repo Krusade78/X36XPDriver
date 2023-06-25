@@ -7,8 +7,8 @@ Copyright (c) 2005  Alfredo Costalago
 #include <ntverp.h>
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 5,0,0,12
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 5,0,2,0
  FILEFLAGSMASK VER_FILEFLAGSMASK
  FILEFLAGS VS_FF_PRIVATEBUILD//VS_FF_PRERELEASE
  FILEOS 0x40000L
@@ -20,12 +20,12 @@ BEGIN
         BLOCK "040004b0"
         BEGIN
             VALUE "FileDescription", "DLL de idiomas"
-            VALUE "FileVersion", "1, 0, 0, 0"
+            VALUE "FileVersion", "1, 0, 0, 1"
             VALUE "InternalName", "idiomas_dll"
             VALUE "LegalCopyright", "© Alfredo Costalago. All rights reserved"
             VALUE "OriginalFilename", "ajd_lng.dll"
             VALUE "ProductName", "X36 Driver"
-            VALUE "ProductVersion", "5, 0, 0, 12"
+            VALUE "ProductVersion", "5, 0, 2, 0"
         END
     END
     BLOCK "VarFileInfo"

@@ -26,9 +26,9 @@
 // included headers
 #define STRICT
 #include <windows.h>
-#include <dinput.h>
-#include <dinputd.h>
-#include <dicpl.h>
+#include "dinput.h"
+#include "dinputd.h"
+#include "dicpl.h"
 #include "resource.h"
 
 

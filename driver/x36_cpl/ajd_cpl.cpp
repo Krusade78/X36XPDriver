@@ -373,7 +373,6 @@ STDMETHODIMP CServerClassFactory::CreateInstance(LPUNKNOWN pUnkOuter, REFIID rii
     {
         OutputDebugString(TEXT("Property sheet object initialization failed\n"));
         pdiGCPropSheet->Release();
-        return hRes;
     }
 
     // query for interface riid, and return it via ppvObj

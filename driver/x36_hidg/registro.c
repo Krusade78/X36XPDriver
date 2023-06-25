@@ -18,7 +18,6 @@ VOID HGM_CargarCalibracion
 {
 	PDEVICE_EXTENSION devExt = GET_MINIDRIVER_DEVICE_EXTENSION(DeviceObject);
 
-	PAGED_CODE();
 
     if(KeGetCurrentIrql()==PASSIVE_LEVEL)
 	{
@@ -102,40 +101,42 @@ QueryValueKey (
     IN  ULONG   DataLength
     )
 {
-    NTSTATUS        status;
+    NTSTATUS        status=STATUS_NO_MEMORY;
     UNICODE_STRING  valueName;
     ULONG           length;
     PKEY_VALUE_FULL_INFORMATION fullInfo;
 
-    PAGED_CODE();
+	if(KeGetCurrentIrql()==PASSIVE_LEVEL) {
 
-    RtlInitUnicodeString (&valueName, ValueNameString);
+		RtlInitUnicodeString (&valueName, ValueNameString);
 
-    length = sizeof (KEY_VALUE_FULL_INFORMATION)
-           + valueName.MaximumLength
-           + DataLength;
+		length = sizeof (KEY_VALUE_FULL_INFORMATION)
+			   + valueName.MaximumLength
+			   + DataLength;
 
-    fullInfo = ExAllocatePool (PagedPool, length);
+		fullInfo = ExAllocatePoolWithTag(NonPagedPool, length,(ULONG)'gerP');
 
-    if (fullInfo) {
-        status = ZwQueryValueKey (Handle,
-                                  &valueName,
-                                  KeyValueFullInformation,
-                                  fullInfo,
-                                  length,
-                                  &length);
+		if (fullInfo) {
+			status = ZwQueryValueKey (Handle,
+									  &valueName,
+									  KeyValueFullInformation,
+									  fullInfo,
+									  length,
+									  &length);
 
-        if (NT_SUCCESS (status)) {
-            ASSERT (DataLength == fullInfo->DataLength);
-            RtlCopyMemory (Data,
-                           ((PUCHAR) fullInfo) + fullInfo->DataOffset,
-                           fullInfo->DataLength);
-        }
+			if (NT_SUCCESS (status)) {
+				ASSERT (DataLength == fullInfo->DataLength);
+				RtlCopyMemory (Data,
+							   ((PUCHAR) fullInfo) + fullInfo->DataOffset,
+							   fullInfo->DataLength);
+			}
 
-        ExFreePool (fullInfo);
-    } else {
-        status = STATUS_NO_MEMORY;
-    }
+			ExFreePoolWithTag (fullInfo,(ULONG)'gerP');
+		} else {
+			status = STATUS_NO_MEMORY;
+		}
+
+	}
 
     return status;
 }

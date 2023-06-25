@@ -68,7 +68,7 @@ INT_PTR CALLBACK X36PROP_Page1_DlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			if(pdiDevice8!=NULL && pdiJoyCfg!=NULL) {
 				TraduceDlg1(hWnd);
 				if(raton==NULL) raton = new CRaton();
-				raton->IniciarDlg1(hWnd);
+				if(raton!=NULL) raton->IniciarDlg1(hWnd);
 				info = new CDInfo(hWnd,pdiDevice8,pdiJoyCfg,raton);
 				SetTimer(hWnd,0,100,NULL);
 			}
@@ -152,9 +152,8 @@ INT_PTR CALLBACK X36PROP_Page2_DlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
                 return TRUE;
             }
 			TraduceDlg2(hWnd);
-			if(raton==NULL)
-				raton = new CRaton();
-			raton->IniciarDlg2(hWnd);
+			if(raton==NULL)	raton = new CRaton();
+			if(raton!=NULL) raton->IniciarDlg2(hWnd);
 		}
 		break;
     case WM_COMMAND:

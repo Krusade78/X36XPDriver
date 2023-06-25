@@ -18,13 +18,71 @@ Public Class Datos
         'Public Toggle As Boolean
     End Structure
 
-    Public mapaBotones(1, 2, 2, 1, 35) As MB
-    Public MapaEjes(1, 2, 2, 3) As MEj
+    Private MapaBotones(1, 2, 2, 1, 35) As MB
+    Private MapaEjes(1, 2, 2, 3) As MEj
     Private MapaModos(41) As MMod
-    Public MapaEjesDX() As Byte = {0, 1, 2, 3}
-    Public MapaRotDX() As Byte = {0, 0}
-    Public MapaAD() As Boolean = {True, True}
-    Public Macros As New ArrayList
+    Private MapaEjesDX() As Byte = {0, 1, 2, 3}
+    Private MapaRotDX() As Byte = {0, 0}
+    Private MapaAD() As Boolean = {True, True}
+    Private Macros As New ArrayList
+
+    Public estaModificado As Boolean = False
+
+#Region "Acceso a datos"
+    Public Sub SetMapaEjesDX(ByVal b As Byte, ByVal e As Byte)
+        estaModificado = True
+        MapaEjesDX(b) = e
+    End Sub
+    Public Function GetMapaEjesDX(ByVal e As Byte) As Byte
+        Return MapaEjesDX(e)
+    End Function
+    Public Sub SetMapaRotDX(ByVal b As Byte, ByVal r As Byte)
+        estaModificado = True
+        MapaRotDX(b) = r
+    End Sub
+    Public Function GetMapaRotDX(ByVal r As Byte) As Byte
+        Return MapaRotDX(r)
+    End Function
+    Public Sub SetMapaBotones_Estado(ByVal p As Byte, ByVal m As Byte, ByVal a As Byte, ByVal i As Byte, ByVal b As Byte, ByVal st As Byte)
+        MapaBotones(p, m, a, i, b).Estado = st
+    End Sub
+    Public Sub SetMapaBotones_Indices(ByVal p As Byte, ByVal m As Byte, ByVal a As Byte, ByVal i As Byte, ByVal b As Byte, ByVal t As Byte, ByVal id As Integer)
+        estaModificado = True
+        MapaBotones(p, m, a, i, b).Indices(t) = id
+    End Sub
+    Public Function GetMapaBotones(ByVal p As Byte, ByVal m As Byte, ByVal a As Byte, ByVal i As Byte, ByVal b As Byte) As MB
+        Return MapaBotones(p, m, a, i, b)
+    End Function
+    Public Sub SetMapaEjes_Incremental(ByVal p As Byte, ByVal m As Byte, ByVal a As Byte, ByVal e As Byte, ByVal inc As Boolean)
+        estaModificado = True
+        MapaEjes(p, m, a, e).Incremental = inc
+    End Sub
+    Public Sub SetMapaEjes_Indices(ByVal p As Byte, ByVal m As Byte, ByVal a As Byte, ByVal e As Byte, ByVal t As Byte, ByVal id As Integer)
+        estaModificado = True
+        MapaEjes(p, m, a, e).Indices(t) = id
+    End Sub
+    Public Sub SetMapaEjes_Bandas(ByVal p As Byte, ByVal m As Byte, ByVal a As Byte, ByVal e As Byte, ByVal b As Byte, ByVal id As Integer)
+        estaModificado = True
+        MapaEjes(p, m, a, e).Bandas(b) = id
+    End Sub
+    Public Function GetMapaEjes(ByVal p As Byte, ByVal m As Byte, ByVal a As Byte, ByVal e As Byte) As MEj
+        Return MapaEjes(p, m, a, e)
+    End Function
+    Public Sub SetMapaAD(ByVal e As Byte, ByVal b As Boolean)
+        estaModificado = True
+        MapaAD(e) = b
+    End Sub
+    Public Function GetMapaAD(ByVal e As Byte) As Boolean
+        Return MapaAD(e)
+    End Function
+    Public Function GetMacros() As ArrayList
+        Return Macros
+    End Function
+    Public Function SetMacros() As ArrayList
+        estaModificado = True
+        Return Macros
+    End Function
+#End Region
 
     Public Sub New()
         For i1 As Byte = 0 To 1
@@ -109,6 +167,7 @@ Public Class Datos
             Next
         Next
         Macros.RemoveAt(i - 1)
+        estaModificado = True
     End Sub
 
     Private rutaPerfil As String
@@ -210,26 +269,25 @@ Public Class Datos
                 Else
                     f.WriteLine("/ASD")
                     For i1 As Byte = 0 To 1
-                        f.WriteLine(Chr(19) & "/K" & i1.ToString())
+                        f.WriteLine(Chr(9) & "/K" & i1.ToString())
                         For i2 As Byte = 0 To 2
-                            f.WriteLine(Chr(19) & Chr(19) & "/M" & (i2 + 1).ToString())
+                            f.WriteLine(Chr(9) & Chr(9) & "/M" & (i2 + 1).ToString())
                             For i3 As Byte = 0 To 2
-                                f.WriteLine(Chr(19) & Chr(19) & Chr(19) & "/X" & (i3 + 1).ToString())
+                                f.WriteLine(Chr(9) & Chr(9) & Chr(9) & "/X" & (i3 + 1).ToString())
 
                                 If MapaEjes(i1, i2, i3, i - 2).Incremental Then
                                     If MapaEjes(i1, i2, i3, i - 2).Indices(0) <> 0 Then
-                                        f.Write(Chr(19) & Chr(19) & Chr(19) & Chr(19) & "/DEC" & MapaEjes(i1, i2, i3, i - 2).Indices(2).ToString() & " " & combo.Items.Item(MapaEjes(i1, i2, i3, i - 2).Indices(0)))
+                                        f.Write(Chr(9) & Chr(9) & Chr(9) & Chr(9) & "/DEC" & MapaEjes(i1, i2, i3, i - 2).Indices(2).ToString() & " " & combo.Items.Item(MapaEjes(i1, i2, i3, i - 2).Indices(0)))
                                         If MapaEjes(i1, i2, i3, i - 2).Indices(1) <> 0 Then
                                             f.WriteLine("   " & "/INC" & MapaEjes(i1, i2, i3, i - 2).Indices(3).ToString() & " " & combo.Items.Item(MapaEjes(i1, i2, i3, i - 2).Indices(1)))
                                         Else
                                             f.WriteLine()
                                         End If
                                     ElseIf MapaEjes(i1, i2, i3, i - 2).Indices(1) <> 0 Then
-                                        f.WriteLine(Chr(19) & Chr(19) & Chr(19) & Chr(19) & "/INC" & MapaEjes(i1, i2, i3, i - 2).Indices(3).ToString() & " " & combo.Items.Item(MapaEjes(i1, i2, i3, i - 2).Indices(1)))
+                                        f.WriteLine(Chr(9) & Chr(9) & Chr(9) & Chr(9) & "/INC" & MapaEjes(i1, i2, i3, i - 2).Indices(3).ToString() & " " & combo.Items.Item(MapaEjes(i1, i2, i3, i - 2).Indices(1)))
                                     End If
                                 Else
                                     Dim tab As Boolean = False
-                                    f.Write(Chr(19) & Chr(19) & Chr(19) & Chr(19))
                                     For b As Byte = 0 To 15
                                         If MapaEjes(i1, i2, i3, i - 2).Indices(b) <> 0 Then
                                             If Not tab Then
@@ -242,7 +300,7 @@ Public Class Datos
                                     If tab Then f.WriteLine()
                                     tab = False
                                     For b As Byte = 0 To 14
-                                        If MapaEjes(i1, i2, i3, i - 2).Indices(b) <> 0 Then
+                                        If MapaEjes(i1, i2, i3, i - 2).Bandas(b) <> 0 Then
                                             If Not tab Then
                                                 f.Write(Chr(9) & Chr(9) & Chr(9) & Chr(9))
                                                 tab = True
@@ -297,7 +355,7 @@ Public Class Datos
                                 If tab Then f.WriteLine()
                                 tab = False
                                 For b As Byte = 0 To 14
-                                    If MapaEjes(i1, i2, i3, rt + 2).Indices(b) <> 0 Then
+                                    If MapaEjes(i1, i2, i3, rt + 2).Bandas(b) <> 0 Then
                                         If Not tab Then
                                             f.Write(Chr(9) & Chr(9) & Chr(9) & Chr(9))
                                             tab = True
@@ -325,9 +383,9 @@ Public Class Datos
         End Try
 
         rutaPerfil = Mid(archivo, 1, archivo.Length - 4)
+        estaModificado = False
         Return True
     End Function
-
 
     Public Function CargarArchivo(ByVal archivo As String, ByVal combo As ComboBox) As Boolean
         Dim bufferB(1, 2, 2, 1, 35, 33) As Byte
@@ -346,8 +404,11 @@ Public Class Datos
         Else
             Return False
         End If
+
+        estaModificado = False
         Return True
     End Function
+
     Private Function CargarMacros(ByVal archivo As String, ByVal combo As ComboBox) As Boolean
         Dim f As System.IO.StreamReader
         Dim linea As String
@@ -385,6 +446,7 @@ Public Class Datos
         End Try
         Return True
     End Function
+
     Private Sub CargarMapa(ByRef bfB As Byte(,,,,,), ByRef bfE As Byte(,,,,), ByRef confD As Byte(), ByRef AD As Byte())
         For i1 As Byte = 0 To 1
             For i2 As Byte = 0 To 2
@@ -418,7 +480,7 @@ Public Class Datos
                         For idx As Byte = 0 To 14
                             MapaEjes(i1, i2, i3, i4).Bandas(idx) = bfE(i1, i2, i3, i4, 1 + idx)
                             MapaEjes(i1, i2, i3, i4).Indices(idx) = bfE(i1, i2, i3, i4, 16 + (idx * 2)) + (bfE(i1, i2, i3, i4, 17 + (idx * 2)) * 256)
-                            If MapaEjes(i1, i2, i3, i4).Indices(idx) <> 0 Or MapaEjes(i1, i2, i3, i4).Bandas(idx) Then
+                            If MapaEjes(i1, i2, i3, i4).Indices(idx) <> 0 Or MapaEjes(i1, i2, i3, i4).Bandas(idx) <> 0 Then
                                 If i1 = 1 Then MapaModos(38 + i4).Pinkie = True
                                 If i2 > 0 Then MapaModos(38 + i4).Modos = True
                                 If i3 > 0 Then MapaModos(38 + i4).AuxModos = True
@@ -436,7 +498,7 @@ Public Class Datos
                         For idx As Byte = 0 To 14
                             MapaEjes(i1, i2, i3, i4).Bandas(idx) = bfE(i1, i2, i3, i4, 1 + idx)
                             MapaEjes(i1, i2, i3, i4).Indices(idx) = bfE(i1, i2, i3, i4, 16 + (idx * 2)) + (bfE(i1, i2, i3, i4, 17 + (idx * 2)) * 256)
-                            If MapaEjes(i1, i2, i3, i4).Indices(idx) <> 0 Or MapaEjes(i1, i2, i3, i4).Bandas(idx) Then
+                            If MapaEjes(i1, i2, i3, i4).Indices(idx) <> 0 Or MapaEjes(i1, i2, i3, i4).Bandas(idx) <> 0 Then
                                 If i1 = 1 Then MapaModos(34 + i4).Pinkie = True
                                 If i2 > 0 Then MapaModos(34 + i4).Modos = True
                                 If i3 > 0 Then MapaModos(34 + i4).AuxModos = True

@@ -1,3 +1,4 @@
+//DRIVER_DISPATCH InternalIoctl;
 NTSTATUS 
 InternalIoctl
     (

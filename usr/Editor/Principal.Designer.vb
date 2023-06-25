@@ -390,7 +390,7 @@ Partial Class Principal
         Me.TabPage2.Location = New System.Drawing.Point(23, 4)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(0, 462)
+        Me.TabPage2.Size = New System.Drawing.Size(-3, 462)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "X35-T"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -472,7 +472,7 @@ Partial Class Principal
         Me.Button43.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button43.Location = New System.Drawing.Point(165, 25)
         Me.Button43.Name = "Button43"
-        Me.Button43.Size = New System.Drawing.Size(64, 20)
+        Me.Button43.Size = New System.Drawing.Size(64, 22)
         Me.Button43.TabIndex = 2
         Me.Button43.Text = "Button43"
         Me.Button43.UseVisualStyleBackColor = False
@@ -483,7 +483,7 @@ Partial Class Principal
         Me.Button42.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button42.Location = New System.Drawing.Point(88, 25)
         Me.Button42.Name = "Button42"
-        Me.Button42.Size = New System.Drawing.Size(64, 20)
+        Me.Button42.Size = New System.Drawing.Size(64, 22)
         Me.Button42.TabIndex = 1
         Me.Button42.Text = "Button42"
         Me.Button42.UseVisualStyleBackColor = False
@@ -494,7 +494,7 @@ Partial Class Principal
         Me.Button41.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button41.Location = New System.Drawing.Point(8, 25)
         Me.Button41.Name = "Button41"
-        Me.Button41.Size = New System.Drawing.Size(64, 20)
+        Me.Button41.Size = New System.Drawing.Size(64, 22)
         Me.Button41.TabIndex = 0
         Me.Button41.Text = "Button41"
         Me.Button41.UseVisualStyleBackColor = False
@@ -504,10 +504,10 @@ Partial Class Principal
         Me.Modofun.BackColor = System.Drawing.Color.LightSteelBlue
         Me.Modofun.Controls.Add(Me.NumericUpDown2)
         Me.Modofun.Controls.Add(Me.Label11)
-        Me.Modofun.Controls.Add(Me.Button44)
         Me.Modofun.Controls.Add(Me.Label8)
         Me.Modofun.Controls.Add(Me.RadioButton2)
         Me.Modofun.Controls.Add(Me.RadioButton1)
+        Me.Modofun.Controls.Add(Me.Button44)
         Me.Modofun.Dock = System.Windows.Forms.DockStyle.Top
         Me.Modofun.Location = New System.Drawing.Point(0, 145)
         Me.Modofun.Name = "Modofun"
@@ -540,7 +540,7 @@ Partial Class Principal
         Me.Button44.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button44.Location = New System.Drawing.Point(50, 42)
         Me.Button44.Name = "Button44"
-        Me.Button44.Size = New System.Drawing.Size(130, 20)
+        Me.Button44.Size = New System.Drawing.Size(130, 22)
         Me.Button44.TabIndex = 3
         Me.Button44.Text = "Button44"
         Me.Button44.UseVisualStyleBackColor = False

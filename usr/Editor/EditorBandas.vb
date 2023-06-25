@@ -23,7 +23,7 @@ Public Class EditorBandas
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         For i As Byte = 0 To 15
-            If padre.datos.MapaEjes(modop, modom, modoa, eje).Indices(i) <> 0 Then poses = poses + 1
+            If padre.datos.GetMapaEjes(modop, modom, modoa, eje).Indices(i) <> 0 Then poses = poses + 1
         Next
         If poses < 2 Then
             Traduce.Msg(83, 79, MsgBoxStyle.Information)
@@ -46,21 +46,21 @@ Public Class EditorBandas
     End Sub
 
     Private Sub Cargar()
-        NumericUpDown1.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(0)
-        NumericUpDown2.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(1)
-        NumericUpDown4.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(2)
-        NumericUpDown3.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(3)
-        NumericUpDown5.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(4)
-        NumericUpDown6.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(5)
-        NumericUpDown7.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(6)
-        NumericUpDown8.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(7)
-        NumericUpDown9.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(8)
-        NumericUpDown10.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(9)
-        NumericUpDown11.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(10)
-        NumericUpDown12.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(11)
-        NumericUpDown13.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(12)
-        NumericUpDown14.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(13)
-        NumericUpDown15.Value = padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(14)
+        NumericUpDown1.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(0)
+        NumericUpDown2.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(1)
+        NumericUpDown3.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(2)
+        NumericUpDown4.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(3)
+        NumericUpDown5.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(4)
+        NumericUpDown6.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(5)
+        NumericUpDown7.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(6)
+        NumericUpDown8.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(7)
+        NumericUpDown9.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(8)
+        NumericUpDown10.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(9)
+        NumericUpDown11.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(10)
+        NumericUpDown12.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(11)
+        NumericUpDown13.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(12)
+        NumericUpDown14.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(13)
+        NumericUpDown15.Value = padre.datos.GetMapaEjes(modop, modom, modoa, eje).Bandas(14)
     End Sub
     Private Sub Guardar()
         Dim num() As NumericUpDown = {NumericUpDown1, NumericUpDown2, NumericUpDown3, NumericUpDown4, NumericUpDown5, NumericUpDown6, NumericUpDown7, NumericUpDown8, NumericUpDown9, NumericUpDown10, NumericUpDown11, NumericUpDown12, NumericUpDown13, NumericUpDown14, NumericUpDown15}
@@ -73,21 +73,21 @@ Public Class EditorBandas
             MsgBox(m1, MsgBoxStyle.Information, Traduce.Txt(79))
             Exit Sub
         End If
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(0) = NumericUpDown1.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(1) = NumericUpDown2.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(2) = NumericUpDown4.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(3) = NumericUpDown3.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(4) = NumericUpDown5.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(5) = NumericUpDown6.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(6) = NumericUpDown7.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(7) = NumericUpDown8.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(8) = NumericUpDown9.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(9) = NumericUpDown10.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(10) = NumericUpDown11.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(11) = NumericUpDown12.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(12) = NumericUpDown13.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(13) = NumericUpDown14.Value
-        padre.datos.MapaEjes(modop, modom, modoa, eje).Bandas(14) = NumericUpDown15.Value
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 0, NumericUpDown1.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 1, NumericUpDown2.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 2, NumericUpDown4.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 3, NumericUpDown3.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 4, NumericUpDown5.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 5, NumericUpDown6.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 6, NumericUpDown7.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 7, NumericUpDown8.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 8, NumericUpDown9.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 9, NumericUpDown10.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 10, NumericUpDown11.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 11, NumericUpDown12.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 12, NumericUpDown13.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 13, NumericUpDown14.Value)
+        padre.datos.SetMapaEjes_Bandas(modop, modom, modoa, eje, 14, NumericUpDown15.Value)
         Me.Close()
     End Sub
 

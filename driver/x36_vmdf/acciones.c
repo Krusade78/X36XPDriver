@@ -29,8 +29,8 @@ BOOLEAN EncolarAcciones(PITFDEVICE_EXTENSION idevExt,PCOLA eventos,UINT16 accion
 				RtlCopyMemory(evt,&(idevExt->Comandos[accion-1].datos[idx]),sizeof(UCHAR)*2);
 				if(*((PUCHAR)evt)==9 || *((PUCHAR)evt)==10) ((PUCHAR)evt)[1]=boton;
 				if(!ColaPush(eventos,evt)) {
+					ExFreePoolWithTag(evt,(ULONG)'vepV');
 					KeReleaseSpinLock(&idevExt->slComandos,irql);
-					ExFreePool(evt);
 					ColaBorrar(eventos);
 					return FALSE;
 				}
@@ -334,7 +334,7 @@ volver:
 							pos=nodon;
 							idx++;
 						} else {
-							ExFreePool((PVOID)nodon);
+							ExFreePoolWithTag((PVOID)nodon,(ULONG)'npHV');
 						}
 					}
 
@@ -357,7 +357,7 @@ volver:
 							nodon->link=cola->principio;
 							cola->principio=nodon;
 						} else {
-							ExFreePool((PVOID)nodon);
+							ExFreePoolWithTag((PVOID)nodon,(ULONG)'npHV');
 						}
 					}
 
@@ -396,7 +396,7 @@ volver:
 							pos=nodon;
 							idx++;
 						} else {
-							ExFreePool((PVOID)nodon);
+							ExFreePoolWithTag((PVOID)nodon,(ULONG)'npHV');
 						}
 					}
 
@@ -419,7 +419,7 @@ volver:
 							nodon->link=cola->principio;
 							cola->principio=nodon;
 						} else {
-							ExFreePool((PVOID)nodon);
+							ExFreePoolWithTag((PVOID)nodon,(ULONG)'npHV');
 						}
 					}
 
@@ -526,7 +526,7 @@ DpcRoutineDelay(
 	PDEVICE_EXTENSION devExt=ctx->DeviceExtension;
 	PNODO nodoini=ctx->NodoIni,nodofin=ctx->NodoFin;
 	PCOLA eventos;
-	ExFreePool(DeferredContext);
+	ExFreePoolWithTag(DeferredContext,(ULONG)'npHV');
 
 	eventos=ColaCrear();
 	if(eventos!=NULL) {

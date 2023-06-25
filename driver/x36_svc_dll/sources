@@ -8,7 +8,6 @@ TARGETLIBS=$(SDK_LIB_PATH)\kernel32.lib \
 			$(SDK_LIB_PATH)\user32.lib \
 			$(SDK_LIB_PATH)\advapi32.lib \
 			$(SDK_LIB_PATH)\ole32.lib \
-			$(DDK_LIB_PATH)\dxguid.lib \
 			$(DDK_LIB_PATH)\dinput8.lib
 
 MSC_WARNING_LEVEL=-W3 -WX

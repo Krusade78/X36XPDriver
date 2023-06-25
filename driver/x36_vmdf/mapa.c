@@ -130,9 +130,9 @@ VOID LimpiarMemoria(PVOID contexto)
 
 		if(idevExt->Comandos!=NULL) {
 			for(idx=0;idx<idevExt->nComandos;idx++) {
-				if(idevExt->Comandos[idx].datos!=NULL) ExFreePool((PVOID)idevExt->Comandos[idx].datos);
+				if(idevExt->Comandos[idx].datos!=NULL) ExFreePoolWithTag((PVOID)idevExt->Comandos[idx].datos,(ULONG)'ocpV');
 			}
-			ExFreePool((PVOID)idevExt->Comandos);
+			ExFreePoolWithTag((PVOID)idevExt->Comandos,(ULONG)'ocpV');
 			idevExt->Comandos=NULL;
 			idevExt->nComandos=0;
 		}
@@ -157,7 +157,7 @@ VOID LimpiarMemoria(PVOID contexto)
 
 	if(idevExt->Configuracion!=NULL) {
 		KeAcquireSpinLock(&idevExt->slEstado,&irql1);
-			ExFreePool(idevExt->Configuracion);
+			ExFreePoolWithTag(idevExt->Configuracion,(ULONG)'ppHV');
 			idevExt->Configuracion=NULL;
 			idevExt->Estado&=6;
 		KeReleaseSpinLock(&idevExt->slEstado,irql1);

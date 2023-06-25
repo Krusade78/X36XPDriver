@@ -4,12 +4,14 @@
 
 // Funciones publicas
 
+//DRIVER_DISPATCH HGM_PnP;
 NTSTATUS HGM_PnP
     (
     IN PDEVICE_OBJECT DeviceObject,
     IN PIRP Irp
     );
 
+//DRIVER_DISPATCH HGM_Power;
 NTSTATUS HGM_Power
     (
     IN PDEVICE_OBJECT DeviceObject,
@@ -47,6 +49,7 @@ NTSTATUS HGM_GetResources
     IN PIRP Irp
     );
 
+//IO_COMPLETION_ROUTINE HGM_PnPComplete;
 NTSTATUS HGM_PnPComplete
     (
     IN PDEVICE_OBJECT DeviceObject,

@@ -4,6 +4,7 @@
 
 // Funciones públicas
 
+//DRIVER_DISPATCH HGM_InternalIoctl;
 NTSTATUS HGM_InternalIoctl
     (
     IN PDEVICE_OBJECT DeviceObject,

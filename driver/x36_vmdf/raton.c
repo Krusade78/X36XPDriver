@@ -80,7 +80,7 @@ QueryValueKey (
            + valueName.MaximumLength
            + DataLength;
 
-    fullInfo = ExAllocatePool (PagedPool, length);
+    fullInfo = ExAllocatePoolWithTag (PagedPool, length, (ULONG)'geRR');
 
     if (fullInfo) {
         status = ZwQueryValueKey (Handle,
@@ -97,7 +97,7 @@ QueryValueKey (
                            fullInfo->DataLength);
         }
 
-        ExFreePool (fullInfo);
+        ExFreePoolWithTag (fullInfo, (ULONG)'geRR');
     } else {
         status = STATUS_NO_MEMORY;
     }

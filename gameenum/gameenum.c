@@ -28,7 +28,7 @@ Revision History:
 #include <initguid.h>
 #include <gameport.h>
 #include "gameenum.h"
-#include "interface.c"
+//#include "interface.c"
 //#include "stdio.h"
 
 //

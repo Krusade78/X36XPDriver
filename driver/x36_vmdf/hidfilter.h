@@ -76,6 +76,7 @@ NTSTATUS DriverEntry
     IN PUNICODE_STRING RegistryPath
     );
 
+//DRIVER_ADD_DEVICE HF_AddDevice;
 NTSTATUS
 HF_AddDevice(
     IN PDRIVER_OBJECT   Driver,
@@ -87,11 +88,13 @@ IniciarExtensiones(
 	PDEVICE_EXTENSION devExt
 	);
 
+//DRIVER_UNLOAD HF_Unload;
 VOID
 HF_Unload(
    IN PDRIVER_OBJECT Driver
    );
 
+//DRIVER_DISPATCH HF_DispatchPassThrough;
 NTSTATUS
 HF_DispatchPassThrough(
         IN PDEVICE_OBJECT DeviceObject,

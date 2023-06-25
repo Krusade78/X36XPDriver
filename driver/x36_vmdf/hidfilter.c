@@ -106,6 +106,7 @@ HF_AddDevice(
 	// Registrar interfaz
 	{
 	    PITFDEVICE_EXTENSION	itfDevExt;
+	    PDEVICE_OBJECT          itfDevice;
 		UNICODE_STRING      DeviceName,link;
 
 		RtlInitUnicodeString(&DeviceName, L"\\Device\\X36_VmdF");
@@ -117,9 +118,10 @@ HF_AddDevice(
                             FILE_DEVICE_UNKNOWN,   
                             0,                     
                             FALSE,                
-                            &devExt->itfObj              
+                            &itfDevice
                             );
 		if (NT_SUCCESS( status )) {
+			devExt->itfObj=itfDevice;
 			itfDevExt = (PITFDEVICE_EXTENSION)devExt->itfObj->DeviceExtension;
 			itfDevExt->id=(ULONG)'X36I';
 			itfDevExt->vDevExt = devExt;
@@ -185,7 +187,7 @@ VOID IniciarExtensiones(PDEVICE_EXTENSION devExt)
 }
 
 
-VOID
+VOID 
 HF_Unload(
    IN PDRIVER_OBJECT Driver
    )
@@ -247,6 +249,7 @@ Routine Description:
 	}
 }           
 
+//IO_COMPLETION_ROUTINE PnP_Complete;
 NTSTATUS
 PnP_Complete(
     IN PDEVICE_OBJECT   DeviceObject,

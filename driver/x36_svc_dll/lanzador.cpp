@@ -22,14 +22,20 @@ CLanzador::CLanzador(char *mdf,char* jdf)
 	conf.MapaEjes[1]=1;
 	conf.MapaEjes[2]=2;
 	conf.MapaEjes[3]=3;
-	ZeroMemory(mapaBotones,sizeof(MBOTONES)*2*3*3*2*36);
-	ZeroMemory(mapaEjes,sizeof(MEJES)*2*3*3*4);
-	ZeroMemory(mapaToggles,sizeof(bool)*2*3*3*4);
+	mapaBotones=(MBOTONES*)malloc(sizeof(MBOTONES)*2*3*3*2*36);
+	if(mapaBotones!=NULL) ZeroMemory(mapaBotones,sizeof(MBOTONES)*2*3*3*2*36);
+	mapaEjes=(MEJES*)malloc(sizeof(MEJES)*2*3*3*4);
+	if(mapaEjes!=NULL) ZeroMemory(mapaEjes,sizeof(MEJES)*2*3*3*4);
+	mapaToggles=(bool*)malloc(sizeof(bool)*2*3*3*4);
+	if(mapaToggles!=NULL) ZeroMemory(mapaToggles,sizeof(bool)*2*3*3*4);
 	acelPed=0;
 }
 
 CLanzador::~CLanzador()
 {
+	free(mapaBotones); mapaBotones=NULL;
+	free(mapaEjes); mapaEjes=NULL;
+	free(mapaToggles); mapaToggles=NULL;
 	LimpiarMemoria();
 }
 
@@ -39,8 +45,8 @@ void CLanzador::LimpiarMemoria()
 		PNODO nodo=iniComandos,n;
 		while(nodo!=NULL) {
 			n=nodo; nodo=n->link;
-			delete[] n->acciones; n->acciones=NULL;
-			delete[] n; n=NULL;
+			free(n->acciones); n->acciones=NULL;
+			free(n); n=NULL;
 		}
 		iniComandos=finComandos=NULL;
 	}
@@ -170,7 +176,7 @@ mal2:
 	CloseHandle(arch);
 	LimpiarMemoria();
 	{
-		char tit[29]; char nlst[6];
+		char tit[29]; char nlst[]={0,0,0,0,0,0};
 		_itoa(nlinea,nlst,10);
 		strcpy(tit,"CLanzador::Compilar (ln:");
 		strcat(tit,nlst); strcat(tit,")");
@@ -214,37 +220,41 @@ bool CLanzador::Cargar()
 			tam+=(nodo->acciones[0]*2)+1;
 			nodo=nodo->link;
 		}
-		BYTE* bufferAux=new BYTE[(size_t)tam];
-		tam=2;
-		nodo=iniComandos;
-		while(nodo!=NULL) {
-			CopyMemory(&bufferAux[tam],nodo->acciones,1+(nodo->acciones[0]*2));
-			tam+=(nodo->acciones[0]*2)+1;
-			idx++;
-			nodo=nodo->link;
-		}
-		*((UINT16*)bufferAux)=idx;
-		LimpiarMemoria();
+		BYTE* bufferAux=(BYTE*)malloc(tam);
+		if(bufferAux!=NULL) {
+			tam=2;
+			nodo=iniComandos;
+			while(nodo!=NULL) {
+				CopyMemory(&bufferAux[tam],nodo->acciones,1+(nodo->acciones[0]*2));
+				tam+=(nodo->acciones[0]*2)+1;
+				idx++;
+				nodo=nodo->link;
+			}
+			*((UINT16*)bufferAux)=idx;
+			LimpiarMemoria();
 
-		if(!DeviceIoControl(driver,IOCTL_USR_COMANDOS,bufferAux,tam,NULL,0,&ret,NULL)) {
-			delete[] bufferAux; bufferAux=NULL;
-			CloseHandle(driver);
-			Traduce::Msg(NULL,LG_ERROR2,"CLanzador::Cargar[0]",MB_ICONERROR);
-			return false;
+			if(!DeviceIoControl(driver,IOCTL_USR_COMANDOS,bufferAux,tam,NULL,0,&ret,NULL)) {
+				free(bufferAux); bufferAux=NULL;
+				CloseHandle(driver);
+				Traduce::Msg(NULL,LG_ERROR2,"CLanzador::Cargar[0]",MB_ICONERROR);
+				return false;
+			}
+			free(bufferAux); bufferAux=NULL;
 		}
-		delete[] bufferAux; bufferAux=NULL;
 	}
 	{
-		BYTE* bufferAux=new BYTE[sizeof(mapaBotones)+sizeof(mapaEjes)];
-		CopyMemory(bufferAux,mapaBotones,sizeof(mapaBotones));
-		CopyMemory(bufferAux+sizeof(mapaBotones),mapaEjes,sizeof(mapaEjes));
-		if(!DeviceIoControl(driver,IOCTL_USR_MAPA,bufferAux,sizeof(mapaBotones)+sizeof(mapaEjes),0,0,&ret,NULL)) {
-			delete[] bufferAux; bufferAux=NULL;
-			CloseHandle(driver);
-			Traduce::Msg(NULL,LG_ERROR2,"CLanzador::Cargar[1]",MB_ICONERROR);
-			return false;
+		BYTE* bufferAux=(BYTE*)malloc((sizeof(MBOTONES)*2*3*3*2*36)+(sizeof(MEJES)*2*3*3*4));
+		if(bufferAux!=NULL) {
+			CopyMemory(bufferAux,mapaBotones,sizeof(MBOTONES)*2*3*3*2*36);
+			CopyMemory(bufferAux+(sizeof(MBOTONES)*2*3*3*2*36),mapaEjes,sizeof(MEJES)*2*3*3*4);
+			if(!DeviceIoControl(driver,IOCTL_USR_MAPA,bufferAux,(sizeof(MBOTONES)*2*3*3*2*36)+(sizeof(MEJES)*2*3*3*4),0,0,&ret,NULL)) {
+				free(bufferAux); bufferAux=NULL;
+				CloseHandle(driver);
+				Traduce::Msg(NULL,LG_ERROR2,"CLanzador::Cargar[1]",MB_ICONERROR);
+				return false;
+			}
+			free(bufferAux); bufferAux=NULL;
 		}
-		delete[] bufferAux; bufferAux=NULL;
 	}
 
 	if(!DeviceIoControl(driver,IOCTL_USR_NUEVACONF,&conf,sizeof(CONF),NULL,0,&ret,NULL)) {
@@ -287,8 +297,8 @@ bool CLanzador::Cargar()
 void CLanzador::CargarE(BYTE* mapaB, BYTE* mapaE,BYTE* confD,BOOLEAN* mapaAD)
 {
 	LimpiarMemoria();
-	CopyMemory(mapaB,mapaBotones,sizeof(mapaBotones));
-	CopyMemory(mapaE,mapaEjes,sizeof(mapaEjes));
+	CopyMemory(mapaB,mapaBotones,(sizeof(MBOTONES)*2*3*3*2*36));
+	CopyMemory(mapaE,mapaEjes,sizeof(MEJES)*2*3*3*4);
 	CopyMemory(confD,&conf,sizeof(CONF));
 	switch(acelPed) {
 		case 0:
@@ -399,13 +409,15 @@ bool CLanzador::ProcesarLineaM(char* linea,UINT16 tam)
 		return false;
 	}
 	
-	PNODO nodo=iniComandos;
-	while(nodo!=NULL) {
-		if(_strcmpi(nodo->nombre,nombre)==0) {
-			Traduce::Msg(NULL,LG_C_ERROR10,LG_C_CM,MB_ICONWARNING);
-			return false;
-		} else {
-			nodo=nodo->link;
+	{
+		PNODO nodo=iniComandos;
+		while(nodo!=NULL) {
+			if(_strcmpi(nodo->nombre,nombre)==0) {
+				Traduce::Msg(NULL,LG_C_ERROR10,LG_C_CM,MB_ICONWARNING);
+				return false;
+			} else {
+				nodo=nodo->link;
+			}
 		}
 	}
 	
@@ -415,16 +427,22 @@ bool CLanzador::ProcesarLineaM(char* linea,UINT16 tam)
 		return false;
 	}
 
-	nodo=new NODO;
-	CopyMemory(nodo->nombre,nombre,33);
-	nodo->acciones=new UCHAR[(acciones[0]*2)+1];
-	CopyMemory(nodo->acciones,acciones,(acciones[0]*2)+1);
-	nodo->link=NULL;
-	if(finComandos==NULL) {
-		iniComandos=finComandos=nodo;
-	} else {
-		finComandos->link=nodo;
-		finComandos=nodo;
+	PNODO nodo=(PNODO)malloc(sizeof(NODO));
+	if(nodo!=NULL) {
+		CopyMemory(nodo->nombre,nombre,33);
+		nodo->acciones=(UCHAR*)malloc((acciones[0]*2)+1);
+		if(nodo->acciones==NULL) {
+			free(nodo); nodo=NULL;
+		} else {
+			CopyMemory(nodo->acciones,acciones,(acciones[0]*2)+1);
+			nodo->link=NULL;
+			if(finComandos==NULL) {
+				iniComandos=finComandos=nodo;
+			} else {
+				finComandos->link=nodo;
+				finComandos=nodo;
+			}
+		}
 	}
 
 	return true;
@@ -560,11 +578,11 @@ bool CLanzador::ProcesarLineaJ(char* linea, UINT16 tam,UCHAR* btn,UCHAR* pinkie,
 
 bool CLanzador::ProcesarComandoM(char* comando,char* dato,UCHAR* acciones,UCHAR* reps,bool* holds)
 {
-	int idato;
+	int idato=0;
 	bool sinDato=(dato[0]==0)?true:false;
 	UCHAR accionId;
 
-	if(!sinDato) { idato=atoi(dato);} else {idato=0;}
+	if(!sinDato) { idato=atoi(dato);}
 
 	if(_strcmpi(comando,"KEYU")==0) {
 		if(sinDato) {
@@ -819,6 +837,14 @@ bool CLanzador::ProcesarComandoM(char* comando,char* dato,UCHAR* acciones,UCHAR*
 	return true;
 }
 
+int CLanzador::GetPosB(UCHAR a, UCHAR b, UCHAR c, UCHAR d, UCHAR e)
+{ 
+	return (a*648)+(b*216)+(c*72)+(d*36)+e;
+}
+int CLanzador::GetPosE(UCHAR a, UCHAR b, UCHAR c, UCHAR d)
+{
+	return (a*36)+(b*12)+(c*4)+d;
+}
 bool CLanzador::ProcesarComandoJ(char* comando,char sig,UCHAR btn,UCHAR* pinkie,UCHAR* modo,UCHAR* amodo,UCHAR* pulsar,char* tipo,bool* macro)
 {
 	char buf[7]={0,0,0,0,0,0,0};
@@ -1061,12 +1087,12 @@ bool CLanzador::ProcesarComandoJ(char* comando,char sig,UCHAR btn,UCHAR* pinkie,
 					Traduce::Msg(NULL,LG_C_ERROR73,LG_C_CJ,MB_ICONWARNING);
 					return false;
 				} else {
-					if(mapaToggles[*pinkie][*modo][*amodo][btn-67]) {
+					if(mapaToggles[GetPosE(*pinkie,*modo,*amodo,btn-67)]) {
 						Traduce::Msg(NULL,LG_C_ERROR74,LG_C_CJ,MB_ICONWARNING);
 						return false;
 					} else {
-						mapaEjes[*pinkie][*modo][*amodo][btn-67].Incremental=TRUE;
-						mapaEjes[*pinkie][*modo][*amodo][btn-67].Indices[3]=p;
+						mapaEjes[GetPosE(*pinkie,*modo,*amodo,btn-67)].Incremental=TRUE;
+						mapaEjes[GetPosE(*pinkie,*modo,*amodo,btn-67)].Indices[3]=p;
 						*tipo=32;
 						*macro=true;
 					}
@@ -1084,12 +1110,12 @@ bool CLanzador::ProcesarComandoJ(char* comando,char sig,UCHAR btn,UCHAR* pinkie,
 					Traduce::Msg(NULL,LG_C_ERROR76,LG_C_CJ,MB_ICONWARNING);
 					return false;
 				} else {
-					if(mapaToggles[*pinkie][*modo][*amodo][btn-67]) {
+					if(mapaToggles[GetPosE(*pinkie,*modo,*amodo,btn-67)]) {
 						Traduce::Msg(NULL,LG_C_ERROR77,LG_C_CJ,MB_ICONWARNING);
 						return false;
 					} else {
-						mapaEjes[*pinkie][*modo][*amodo][btn-67].Incremental=TRUE;
-						mapaEjes[*pinkie][*modo][*amodo][btn-67].Indices[2]=p;
+						mapaEjes[GetPosE(*pinkie,*modo,*amodo,btn-67)].Incremental=TRUE;
+						mapaEjes[GetPosE(*pinkie,*modo,*amodo,btn-67)].Indices[2]=p;
 						*tipo=33;
 						*macro=true;
 					}
@@ -1126,12 +1152,12 @@ bool CLanzador::ProcesarComandoJ(char* comando,char sig,UCHAR btn,UCHAR* pinkie,
 					Traduce::Msg(NULL,LG_C_ERROR73,LG_C_CJ,MB_ICONWARNING);
 					return false;
 			} else {
-				if(mapaToggles[*pinkie][*modo][*amodo][btn-67]) {
+				if(mapaToggles[GetPosE(*pinkie,*modo,*amodo,btn-67)]) {
 					Traduce::Msg(NULL,LG_C_ERROR74,LG_C_CJ,MB_ICONWARNING);
 					return false;
 				} else {
-					mapaEjes[*pinkie][*modo][*amodo][btn-67].Incremental=TRUE;
-					mapaEjes[*pinkie][*modo][*amodo][btn-67].Indices[3]=p;
+					mapaEjes[GetPosE(*pinkie,*modo,*amodo,btn-67)].Incremental=TRUE;
+					mapaEjes[GetPosE(*pinkie,*modo,*amodo,btn-67)].Indices[3]=p;
 					*tipo=32;
 					*macro=true;
 				}
@@ -1143,12 +1169,12 @@ bool CLanzador::ProcesarComandoJ(char* comando,char sig,UCHAR btn,UCHAR* pinkie,
 				Traduce::Msg(NULL,LG_C_ERROR76,LG_C_CJ,MB_ICONWARNING);
 				return false;
 			} else {
-				if(mapaToggles[*pinkie][*modo][*amodo][btn-67]) {
+				if(mapaToggles[GetPosE(*pinkie,*modo,*amodo,btn-67)]) {
 					Traduce::Msg(NULL,LG_C_ERROR77,LG_C_CJ,MB_ICONWARNING);
 					return false;
 				} else {
-					mapaEjes[*pinkie][*modo][*amodo][btn-67].Incremental=TRUE;
-					mapaEjes[*pinkie][*modo][*amodo][btn-67].Indices[2]=p;
+					mapaEjes[GetPosE(*pinkie,*modo,*amodo,btn-67)].Incremental=TRUE;
+					mapaEjes[GetPosE(*pinkie,*modo,*amodo,btn-67)].Indices[2]=p;
 					*tipo=33;
 					*macro=true;
 				}
@@ -1212,16 +1238,16 @@ bool CLanzador::ProcesarMacro(char* nombre,UCHAR btn,UCHAR pinkie,UCHAR modo,UCH
 			Traduce::Msg(NULL,LG_C_ERROR80,LG_C_CJ,MB_ICONWARNING);
 			return false;
 		}
-		if(mapaEjes[pinkie][modo][amodo][btn-67].Incremental){
+		if(mapaEjes[GetPosE(pinkie,modo,amodo,btn-67)].Incremental){
 			Traduce::Msg(NULL,LG_C_ERROR85,LG_C_CJ,MB_ICONWARNING);
 			return false;
 		}
-		if(mapaEjes[pinkie][modo][amodo][btn-67].Bandas[tipo-101]!=0) {
+		if(mapaEjes[GetPosE(pinkie,modo,amodo,btn-67)].Bandas[tipo-101]!=0) {
 			Traduce::Msg(NULL,LG_C_ERROR86,LG_C_CJ,MB_ICONWARNING);
 			return false;
 		} else {
-			mapaToggles[pinkie][modo][amodo][btn-67]=true;
-			mapaEjes[pinkie][modo][amodo][btn-67].Bandas[tipo-101]=(UCHAR)banda;
+			mapaToggles[GetPosE(pinkie,modo,amodo,btn-67)]=true;
+			mapaEjes[GetPosE(pinkie,modo,amodo,btn-67)].Bandas[tipo-101]=(UCHAR)banda;
 			return true;
 		}
 	} else {
@@ -1232,41 +1258,41 @@ bool CLanzador::ProcesarMacro(char* nombre,UCHAR btn,UCHAR pinkie,UCHAR modo,UCH
 		if(_strcmpi(nombre,nodo->nombre)==0) {
 			if(btn>66 && btn<71) {
 				if(tipo==32) {
-					if(mapaEjes[pinkie][modo][amodo][btn-67].Indices[1]!=0) {
+					if(mapaEjes[GetPosE(pinkie,modo,amodo,btn-67)].Indices[1]!=0) {
 						Traduce::Msg(NULL,LG_C_ERROR87,LG_C_CJ,MB_ICONWARNING);
 						return false;
 					} else {
-						mapaEjes[pinkie][modo][amodo][btn-67].Indices[1]=idx;
+						mapaEjes[GetPosE(pinkie,modo,amodo,btn-67)].Indices[1]=idx;
 					}
 				} else if(tipo==33) {
-					if(mapaEjes[pinkie][modo][amodo][btn-67].Indices[0]!=0) {
+					if(mapaEjes[GetPosE(pinkie,modo,amodo,btn-67)].Indices[0]!=0) {
 						Traduce::Msg(NULL,LG_C_ERROR88,LG_C_CJ,MB_ICONWARNING);
 						return false;
 					} else {
-						mapaEjes[pinkie][modo][amodo][btn-67].Indices[0]=idx;
+						mapaEjes[GetPosE(pinkie,modo,amodo,btn-67)].Indices[0]=idx;
 					}
 				} else {
-					if(mapaEjes[pinkie][modo][amodo][btn-67].Incremental){
+					if(mapaEjes[GetPosE(pinkie,modo,amodo,btn-67)].Incremental){
 						Traduce::Msg(NULL,LG_C_ERROR89,LG_C_CJ,MB_ICONWARNING);
 						return false;
 					}
-					if(mapaEjes[pinkie][modo][amodo][btn-67].Indices[tipo]!=0) {
+					if(mapaEjes[GetPosE(pinkie,modo,amodo,btn-67)].Indices[tipo]!=0) {
 						Traduce::Msg(NULL,LG_C_ERROR90,LG_C_CJ,MB_ICONWARNING);
 						return false;
 					} else {
-						mapaToggles[pinkie][modo][amodo][btn-67]=true;
-						mapaEjes[pinkie][modo][amodo][btn-67].Indices[tipo]=idx;
+						mapaToggles[GetPosE(pinkie,modo,amodo,btn-67)]=true;
+						mapaEjes[GetPosE(pinkie,modo,amodo,btn-67)].Indices[tipo]=idx;
 					}
 				}
 			} else if(btn<37) {
-				if(mapaBotones[pinkie][modo][amodo][pulsar][btn-1].Indices[tipo]!=0) {
+				if(mapaBotones[GetPosB(pinkie,modo,amodo,pulsar,btn-1)].Indices[tipo]!=0) {
 					Traduce::Msg(NULL,LG_C_ERROR90,LG_C_CJ,MB_ICONWARNING);
 					return false;
 				} else {
-					if(tipo>mapaBotones[pinkie][modo][amodo][pulsar][btn-1].Estado) {
-						mapaBotones[pinkie][modo][amodo][pulsar][btn-1].Estado=tipo;
+					if(tipo>mapaBotones[GetPosB(pinkie,modo,amodo,pulsar,btn-1)].Estado) {
+						mapaBotones[GetPosB(pinkie,modo,amodo,pulsar,btn-1)].Estado=tipo;
 					}
-					mapaBotones[pinkie][modo][amodo][pulsar][btn-1].Indices[tipo]=idx;
+					mapaBotones[GetPosB(pinkie,modo,amodo,pulsar,btn-1)].Indices[tipo]=idx;
 				}
 			}
 			return true;
@@ -1287,13 +1313,13 @@ bool CLanzador::ComprobarBandas()
 		for(char j=0;j<3;j++) {
 			for(char k=0;k<3;k++) {
 				for(char l=0;l<4;l++) {
-					if(!mapaEjes[i][j][k][l].Incremental) {
+					if(!mapaEjes[GetPosE(i,j,k,l)].Incremental) {
 						char maxt=0,maxb=0;
 						short maxu=0;
 						bool fin=false;
 						for(char x=0;x<16;x++) {
-							if(mapaEjes[i][j][k][l].Indices[x]!=0) maxt++;
-							if(x<15) if(mapaEjes[i][j][k][l].Bandas[x]!=0) {
+							if(mapaEjes[GetPosE(i,j,k,l)].Indices[x]!=0) maxt++;
+							if(x<15) if(mapaEjes[GetPosE(i,j,k,l)].Bandas[x]!=0) {
 								if(fin) {
 									Traduce::Msg(NULL,LG_C_ERROR92,LG_C_B,MB_ICONWARNING);
 									return false;
@@ -1313,11 +1339,11 @@ bool CLanzador::ComprobarBandas()
 							return false;
 						}
 						for(char x=0;x<maxb;x++) {
-							if(mapaEjes[i][j][k][l].Bandas[x]<=maxu) {
+							if(mapaEjes[GetPosE(i,j,k,l)].Bandas[x]<=maxu) {
 								Traduce::Msg(NULL,LG_C_ERROR95,LG_C_B,MB_ICONWARNING);
 								return false;
 							} else {
-								maxu=mapaEjes[i][j][k][l].Bandas[x];
+								maxu=mapaEjes[GetPosE(i,j,k,l)].Bandas[x];
 							}
 						}
 						if(maxb<(maxt-1)) {
@@ -1327,7 +1353,7 @@ bool CLanzador::ComprobarBandas()
 								return false;
 							}
 							for(char y=maxb;y<(maxt-1);y++) {
-								mapaEjes[i][j][k][l].Bandas[y]=maxu+spc;
+								mapaEjes[GetPosE(i,j,k,l)].Bandas[y]=maxu+spc;
 								maxu+=spc;
 							}
 						}

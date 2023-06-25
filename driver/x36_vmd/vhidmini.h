@@ -45,12 +45,14 @@ DriverEntry(
     IN PUNICODE_STRING registryPath
     );
 
+//DRIVER_DISPATCH PnP;
 NTSTATUS 
 PnP(
     IN PDEVICE_OBJECT DeviceObject,
     IN PIRP Irp
     );
 
+//IO_COMPLETION_ROUTINE PnPComplete;
 NTSTATUS 
 PnPComplete(
     IN PDEVICE_OBJECT   DeviceObject,
@@ -58,18 +60,21 @@ PnPComplete(
     IN PVOID            Context
     );
 
+//DRIVER_DISPATCH Power;
 NTSTATUS 
 Power(
     IN PDEVICE_OBJECT DeviceObject,
     IN PIRP Irp
     );
 
+//DRIVER_ADD_DEVICE AddDevice;
 NTSTATUS  
 AddDevice(
     IN PDRIVER_OBJECT DriverObject,
     IN PDEVICE_OBJECT FunctionalDeviceObject
     );
 
+//DRIVER_UNLOAD Unload;
 VOID 
 Unload(
     IN PDRIVER_OBJECT DriverObject

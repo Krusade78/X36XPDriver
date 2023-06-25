@@ -210,14 +210,22 @@ Return Value:
 		switch(x36DevExt->fase)
 		{
 			case 6:
-				x36DevExt->fase=0;
-				(InputDataStart+i)->MakeCode=111;
-				TraducirGiratorio(x36DevExt,auxCode);
+				if(auxCode>47 && auxCode<64) {
+					x36DevExt->fase=0;
+					(InputDataStart+i)->MakeCode=111;
+					TraducirGiratorio(x36DevExt,auxCode);
+				} else {
+					if(((InputDataStart+i)->Flags&KEY_BREAK)!=KEY_BREAK) (InputDataStart+i)->MakeCode=111;
+				}
 				break;
 			case 5:
-				x36DevExt->fase=6;
-				(InputDataStart+i)->MakeCode=111;
-				x36DevExt->gPosicion=auxCode;
+				if(auxCode>47 && auxCode<64) {
+					x36DevExt->fase=6;
+					(InputDataStart+i)->MakeCode=111;
+					x36DevExt->gPosicion=auxCode;
+				} else {
+					if(((InputDataStart+i)->Flags&KEY_BREAK)!=KEY_BREAK) (InputDataStart+i)->MakeCode=111;
+				}
 				break;
 			case 4:
 				if(auxCode==33) {
@@ -229,7 +237,8 @@ Return Value:
 				} else if(auxCode==36) {
 					x36DevExt->gEje=3;
 				} else {
-					x36DevExt->fase=0;
+					if(((InputDataStart+i)->Flags&KEY_BREAK)!=KEY_BREAK) (InputDataStart+i)->MakeCode=111;
+					//x36DevExt->fase=0;
 					break;
 				}
 				x36DevExt->fase=5;
@@ -248,7 +257,8 @@ Return Value:
 					x36DevExt->fase=4;
 					(InputDataStart+i)->MakeCode=111;
 				} else {
-					x36DevExt->fase=0;
+					if(((InputDataStart+i)->Flags&KEY_BREAK)!=KEY_BREAK) (InputDataStart+i)->MakeCode=111;
+					//x36DevExt->fase=0;
 				}
 				break;
 			case 1:
@@ -256,7 +266,8 @@ Return Value:
 					x36DevExt->fase=2;
 					(InputDataStart+i)->MakeCode=111;
 				} else {
-					x36DevExt->fase=0;
+					if(((InputDataStart+i)->Flags&KEY_BREAK)!=KEY_BREAK) (InputDataStart+i)->MakeCode=111;
+					//x36DevExt->fase=0;
 				}
 				break;
 			case 0:

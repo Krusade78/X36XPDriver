@@ -366,24 +366,28 @@ NTSTATUS DriverEntry
     IN PUNICODE_STRING registryPath
     );
 
+//DRIVER_DISPATCH HGM_CreateClose;
 NTSTATUS HGM_CreateClose
     (
     IN PDEVICE_OBJECT DeviceObject,
     IN PIRP Irp
     );
 
+//DRIVER_DISPATCH HGM_SystemControl;
 NTSTATUS HGM_SystemControl
     (
     IN PDEVICE_OBJECT DeviceObject,
     IN PIRP Irp
     );
 
+//DRIVER_ADD_DEVICE HGM_AddDevice;
 NTSTATUS HGM_AddDevice
     (
     IN PDRIVER_OBJECT DriverObject,
     IN PDEVICE_OBJECT FunctionalDeviceObject
     );
 
+//DRIVER_UNLOAD HGM_Unload;
 VOID HGM_Unload
     (
     IN PDRIVER_OBJECT DriverObject

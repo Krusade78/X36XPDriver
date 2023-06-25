@@ -1,6 +1,6 @@
 #include <windows.h>
-#include <dinput.h>
-#include <dinputd.h>
+#include "dinput.h"
+#include "dinputd.h"
 #include "raton.h"
 #include "dinfo.h"
 #include "resource.h"

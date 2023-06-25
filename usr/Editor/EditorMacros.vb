@@ -2,6 +2,7 @@ Public Class EditorMacros
     Private padre As Principal
     Private indicep As Integer
     Private reps As Integer = 0
+    Public Shared ultimaPlantilla As Integer = 0
 
     Public Sub New(ByVal i As Integer, ByVal p As Principal)
         InitializeComponent()
@@ -12,7 +13,8 @@ Public Class EditorMacros
     Private Sub EditorMacros_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         If indicep > 0 Then
             TextBox1.Text = padre.ComboBox1.Items.Item(indicep)
-            RichTextBox1.Text = padre.datos.Macros(indicep - 1)
+            RichTextBox1.Text = padre.datos.GetMacros(indicep - 1)
+            Colorear()
         End If
         Traducir()
         CargarPlantillas()
@@ -53,8 +55,13 @@ Public Class EditorMacros
             vtSelPlantilla.Items.Add(Mid(f.Name, 1, f.Name.Length - 4))
         Next
         If vtSelPlantilla.Items.Count > 0 Then
-            vtSelPlantilla.SelectedIndex = 0
-            CargarPlantilla(0)
+            If vtSelPlantilla.Items.Count > EditorMacros.ultimaPlantilla Then
+                vtSelPlantilla.SelectedIndex = EditorMacros.ultimaPlantilla
+                CargarPlantilla(EditorMacros.ultimaPlantilla)
+            Else
+                vtSelPlantilla.SelectedIndex = 0
+                CargarPlantilla(0)
+            End If
         Else
             Button1.Enabled = False
             Button2.Enabled = False
@@ -87,7 +94,44 @@ Public Class EditorMacros
         End Try
     End Sub
 
+    Private Sub Colorear()
+        Dim i As Integer = 0
+        Dim aux As Integer = 0
+        RichTextBox1.Text = RichTextBox1.Text.Replace(" ", "")
+        While i < RichTextBox1.TextLength - 1
+            RichTextBox1.Select(i, 4)
+            RichTextBox1.SelectionColor = Color.Blue
+            RichTextBox1.SelectedText = RichTextBox1.SelectedText & " "
+            i = i + 5
+            Try
+                aux = CInt(RichTextBox1.Text.Substring(i, 1))
+                Try
+                    aux = CInt(RichTextBox1.Text.Substring(i, 2))
+                    Try
+                        aux = CInt(RichTextBox1.Text.Substring(i, 3))
+                        RichTextBox1.Select(i, 3)
+                        RichTextBox1.SelectionColor = Color.Red
+                        RichTextBox1.SelectedText = RichTextBox1.SelectedText & " "
+                        i = i + 4
+                    Catch
+                        RichTextBox1.Select(i, 2)
+                        RichTextBox1.SelectionColor = Color.Red
+                        RichTextBox1.SelectedText = RichTextBox1.SelectedText & " "
+                        i = i + 3
+                    End Try
+                Catch
+                    RichTextBox1.Select(i, 1)
+                    RichTextBox1.SelectionColor = Color.Red
+                    RichTextBox1.SelectedText = RichTextBox1.SelectedText & " "
+                    i = i + 2
+                End Try
+            Catch
+            End Try
+        End While
+    End Sub
+
     Private Sub Guardar()
+        If Trim(RichTextBox1.Text) = "" Then Exit Sub
         If TextBox1.Text.IndexOf(" ") <> -1 Or TextBox1.Text.IndexOf("=") <> -1 Or TextBox1.Text.IndexOf("/") <> -1 Then
             Traduce.Msg(165, 79, MsgBoxStyle.Information) ' Caracter no válido
             Exit Sub
@@ -104,7 +148,7 @@ Public Class EditorMacros
                     End If
                 Next
                 padre.ComboBox1.Items.Add(TextBox1.Text)
-                padre.datos.Macros.Add(Trim(RichTextBox1.Text))
+                padre.datos.SetMacros().Add(Trim(RichTextBox1.Text))
             Else
                 For i As Integer = 0 To padre.ComboBox1.Items.Count - 1
                     If TextBox1.Text.ToLower = padre.ComboBox1.Items.Item(i).ToString.ToLower And i <> indicep Then
@@ -113,7 +157,7 @@ Public Class EditorMacros
                     End If
                 Next
                 padre.ComboBox1.Items.Item(indicep) = TextBox1.Text
-                padre.datos.Macros.Item(indicep - 1) = Trim(RichTextBox1.Text)
+                padre.datos.SetMacros().Item(indicep - 1) = Trim(RichTextBox1.Text)
             End If
         End If
 
@@ -166,148 +210,148 @@ Public Class EditorMacros
 
 #Region "raton"
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "MS1U "
     End Sub
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "MS2U "
     End Sub
 
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "MS3U "
     End Sub
 
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "MS1D "
     End Sub
 
     Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button7.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "MS2D "
     End Sub
 
     Private Sub Button8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button8.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "MS3D "
     End Sub
 
     Private Sub Button9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button9.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "MSXL "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = NumericUpDown5.Value.ToString & " "
     End Sub
 
     Private Sub Button10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button10.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "MSXR "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = NumericUpDown5.Value.ToString & " "
     End Sub
 
     Private Sub Button11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button11.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "MSYU "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = NumericUpDown5.Value.ToString & " "
     End Sub
 
     Private Sub Button12_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button12.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "MSYD "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = NumericUpDown5.Value.ToString & " "
     End Sub
 #End Region
 #Region "modos"
     Private Sub Button18_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button18.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "SETK "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = "0 "
     End Sub
 
     Private Sub Button19_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button19.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "SETK "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = "1 "
     End Sub
 
     Private Sub Button20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button20.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "SETM "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = "1 "
     End Sub
 
     Private Sub Button21_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button21.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "SETM "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = "2 "
     End Sub
 
     Private Sub Button22_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button22.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "SETM "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = "3 "
     End Sub
 
     Private Sub Button23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button23.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "SETX "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = "1 "
     End Sub
 
     Private Sub Button24_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button24.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "SETX "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = "2 "
     End Sub
 
     Private Sub Button25_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button25.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "SETX "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = "3 "
     End Sub
 #End Region
     Private Sub Button17_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button17.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "DLAY "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = NumericUpDown6.Value.ToString() & " "
     End Sub
 #Region "dx"
     Private Sub Button28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button28.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "DXBU "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = NumericUpDown1.Value.ToString() & " "
     End Sub
     Private Sub Button29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button29.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "DXBD "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = NumericUpDown1.Value.ToString() & " "
     End Sub
     Private Sub Button30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button30.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "DXPU "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = NumericUpDown2.Value.ToString() & NumericUpDown3.Value.ToString() & " "
     End Sub
     Private Sub Button31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button31.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "DXPD "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = NumericUpDown2.Value.ToString() & NumericUpDown3.Value.ToString() & " "
     End Sub
     Private Sub NumericUpDown2_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NumericUpDown2.ValueChanged
@@ -321,33 +365,34 @@ Public Class EditorMacros
 #End Region
 #Region "teclas"
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "KEYD "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = ComboBox1.SelectedIndex.ToString() & " "
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "KEYU "
-        RichTextBox1.SelectionColor = Color.Purple
+        RichTextBox1.SelectionColor = Color.Red
         RichTextBox1.SelectedText = ComboBox1.SelectedIndex.ToString() & " "
     End Sub
 
     Private Sub vtSelPlantilla_SelectedItemChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles vtSelPlantilla.SelectedItemChanged
         CargarPlantilla(vtSelPlantilla.SelectedIndex)
+        EditorMacros.ultimaPlantilla = vtSelPlantilla.SelectedIndex
     End Sub
 #End Region
 #Region "reps"
     Private Sub Button13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button13.Click
         Button13.Enabled = False
-        RichTextBox1.SelectionColor = Color.Green
+        RichTextBox1.SelectionColor = Color.Blue
         RichTextBox1.SelectedText = "HOLD "
     End Sub
 
     Private Sub Button14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button14.Click
         If Button13.Enabled Then
-            RichTextBox1.SelectionColor = Color.Green
+            RichTextBox1.SelectionColor = Color.Blue
             RichTextBox1.SelectedText = "REPI "
             reps = reps + 1
         End If
@@ -356,9 +401,9 @@ Public Class EditorMacros
     Private Sub Button16_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button16.Click
         If Button13.Enabled Then
             Button15.Enabled = True
-            RichTextBox1.SelectionColor = Color.Green
+            RichTextBox1.SelectionColor = Color.Blue
             RichTextBox1.SelectedText = "REPN "
-            RichTextBox1.SelectionColor = Color.Purple
+            RichTextBox1.SelectionColor = Color.Red
             RichTextBox1.SelectedText = NumericUpDown4.Value.ToString() & " "
             reps = reps + 1
         End If
@@ -366,7 +411,7 @@ Public Class EditorMacros
 
     Private Sub Button15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button15.Click
         If Button13.Enabled Then
-            RichTextBox1.SelectionColor = Color.Green
+            RichTextBox1.SelectionColor = Color.Blue
             RichTextBox1.SelectedText = "REPF "
             reps = reps - 1
             If reps = 0 Then Button15.Enabled = False

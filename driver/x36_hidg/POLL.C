@@ -407,6 +407,8 @@ NTSTATUS HGM_UpdateLatestPollData
     LONG                axisIdx;
 	ULONG				ejes[MAX_AXES];
 
+	RtlZeroMemory(ejes,sizeof(ULONG)*MAX_AXES);
+
     /*
      *  Acquire the global spinlock
      *  Read / Writes are made at dispatch level.

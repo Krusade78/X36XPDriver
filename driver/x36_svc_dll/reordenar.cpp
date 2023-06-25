@@ -108,7 +108,8 @@ bool CReorden::IniciarDX()
 	hr = CoInitialize(NULL);
 	if(FAILED(hr)) return false;
 
-	hr = DirectInput8Create(hInst,DIRECTINPUT_VERSION,IID_IDirectInput8,(LPVOID*)&g_pDI,NULL);
+	const GUID IID_IDI= {0xBF798030,0x483A,0x4DA2,{0xAA,0x99,0x5D,0x64,0xED,0x36,0x97,0x00}};
+	hr = DirectInput8Create(hInst,DIRECTINPUT_VERSION,IID_IDI,(LPVOID*)&g_pDI,NULL);
 	if(FAILED(hr)) {
 		CoUninitialize();
 		return false;

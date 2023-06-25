@@ -53,7 +53,18 @@ void InicioServicio (DWORD argc, LPTSTR *argv)
     }
 
 	serv = new CServicio();
-   if (!serv->IniciarServicio()) 
+	if(serv==NULL) {
+		svEstado.dwCurrentState       = SERVICE_STOPPED; 
+        svEstado.dwCheckPoint         = 0; 
+        svEstado.dwWaitHint           = 0; 
+        svEstado.dwWin32ExitCode      = 1062; 
+        svEstado.dwServiceSpecificExitCode = 0; 
+ 
+        SetServiceStatus (svHandle, &svEstado); 
+
+        return; 
+	}
+    if (!serv->IniciarServicio()) 
     { 
 		delete serv; serv=NULL;
 

@@ -5,6 +5,7 @@ Public Class Principal
     Public datos As Datos
     Public actual As Byte = 0
     Private esNuevo As Boolean = True
+    Public eventos As Boolean = False
 
 #Region "Eventos"
 
@@ -12,10 +13,24 @@ Public Class Principal
         Traducir()
         Vista.padre = Me
         datos = New Datos()
+        eventos = True
         If My.Application.CommandLineArgs.Count = 1 Then
             Abrir(My.Application.CommandLineArgs(0) & ".jdf")
         Else
             Vista.Boton(0, Button22)
+        End If
+    End Sub
+    Private Sub Principal_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        If datos.estaModificado Then
+            Dim r As Microsoft.VisualBasic.MsgBoxResult = Traduce.Msg(80, 79, MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Exclamation)
+            If r = MsgBoxResult.Cancel Then
+                e.Cancel = True
+                Exit Sub
+            Else
+                If r = MsgBoxResult.Yes Then
+                    If Not OnFileSave2() Then e.Cancel = True : Exit Sub
+                End If
+            End If
         End If
     End Sub
 
@@ -75,6 +90,10 @@ Public Class Principal
 #End Region
 
 #Region "Metodos"
+
+    Public Sub GetModos(ByRef p As Byte, ByRef m As Byte, ByRef a As Byte)
+        Vista.GetModos(p, m, a)
+    End Sub
 
     Private Sub Traducir()
         Me.Text = Traduce.Txt(13) & " - [" & Traduce.Txt(14) & "]"
@@ -181,17 +200,15 @@ Public Class Principal
         ComboBox1.SelectedIndex = 0
     End Sub
 
-    Public Sub GetModos(ByRef p As Byte, ByRef m As Byte, ByRef a As Byte)
-        Vista.GetModos(p, m, a)
-    End Sub
-
     Private Sub Nuevo()
-        Dim r As Microsoft.VisualBasic.MsgBoxResult = Traduce.Msg(80, 79, MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Exclamation)
-        If r = MsgBoxResult.Cancel Then
-            Exit Sub
-        Else
-            If r = MsgBoxResult.Yes Then
-                If Not OnFileSave2() Then Exit Sub
+        If datos.estaModificado Then
+            Dim r As Microsoft.VisualBasic.MsgBoxResult = Traduce.Msg(80, 79, MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Exclamation)
+            If r = MsgBoxResult.Cancel Then
+                Exit Sub
+            Else
+                If r = MsgBoxResult.Yes Then
+                    If Not OnFileSave2() Then Exit Sub
+                End If
             End If
         End If
         ComboBox1.Items.Clear()
@@ -207,12 +224,14 @@ Public Class Principal
 
     Private Sub Abrir(Optional ByVal archivo As String = Nothing)
         If archivo Is Nothing Then
-            Dim r As Microsoft.VisualBasic.MsgBoxResult = Traduce.Msg(80, 79, MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Exclamation)
-            If r = MsgBoxResult.Cancel Then
-                Exit Sub
-            Else
-                If r = MsgBoxResult.Yes Then
-                    If Not OnFileSave2() Then Exit Sub
+            If datos.estaModificado Then
+                Dim r As Microsoft.VisualBasic.MsgBoxResult = Traduce.Msg(80, 79, MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Exclamation)
+                If r = MsgBoxResult.Cancel Then
+                    Exit Sub
+                Else
+                    If r = MsgBoxResult.Yes Then
+                        If Not OnFileSave2() Then Exit Sub
+                    End If
                 End If
             End If
             If OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
@@ -251,7 +270,7 @@ Public Class Principal
         If esNuevo Then
             Return OnFileSaveAs2()
         Else
-            Return datos.Guardar(ComboBox1)
+            return datos.Guardar(ComboBox1)
         End If
     End Function
 
@@ -275,11 +294,13 @@ Public Class Principal
     End Function
 
     Private Sub Lanzar()
-        Dim r As Microsoft.VisualBasic.MsgBoxResult = Traduce.Msg(81, 79, MsgBoxStyle.OkCancel Or MsgBoxStyle.Exclamation)
-        If r = MsgBoxResult.Cancel Then
-            Exit Sub
-        Else
-            If Not OnFileSave2() Then Exit Sub
+        If datos.estaModificado Then
+            Dim r As Microsoft.VisualBasic.MsgBoxResult = Traduce.Msg(81, 79, MsgBoxStyle.OkCancel Or MsgBoxStyle.Exclamation)
+            If r = MsgBoxResult.Cancel Then
+                Exit Sub
+            Else
+                If Not OnFileSave2() Then Exit Sub
+            End If
         End If
         Try
             If CompileAndLaunch(datos.GetRutaPerfil() & ".mdf", datos.GetRutaPerfil() & ".jdf") = 1 Then
@@ -291,11 +312,13 @@ Public Class Principal
     End Sub
 
     Private Sub Compilar()
-        Dim r As Microsoft.VisualBasic.MsgBoxResult = Traduce.Msg(81, 79, MsgBoxStyle.OkCancel Or MsgBoxStyle.Exclamation)
-        If r = MsgBoxResult.Cancel Then
-            Exit Sub
-        Else
-            If Not OnFileSave2() Then Exit Sub
+        If datos.estaModificado Then
+            Dim r As Microsoft.VisualBasic.MsgBoxResult = Traduce.Msg(81, 79, MsgBoxStyle.OkCancel Or MsgBoxStyle.Exclamation)
+            If r = MsgBoxResult.Cancel Then
+                Exit Sub
+            Else
+                If Not OnFileSave2() Then Exit Sub
+            End If
         End If
         Try
             If Compile(datos.GetRutaPerfil() & ".mdf", datos.GetRutaPerfil() & ".jdf") = 1 Then
@@ -327,52 +350,52 @@ Public Class Principal
         Vista.Boton(5, Button23)
     End Sub
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        Vista.Boton(6, Button3)
+        Vista.Boton(14, Button3)
     End Sub
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
-        Vista.Boton(7, Button6)
+        Vista.Boton(15, Button6)
     End Sub
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
-        Vista.Boton(8, Button4)
+        Vista.Boton(16, Button4)
     End Sub
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
-        Vista.Boton(9, Button5)
+        Vista.Boton(17, Button5)
     End Sub
     Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button7.Click
-        Vista.Boton(10, Button7)
+        Vista.Boton(18, Button7)
     End Sub
     Private Sub Button8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button8.Click
-        Vista.Boton(11, Button8)
+        Vista.Boton(19, Button8)
     End Sub
     Private Sub Button9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button9.Click
-        Vista.Boton(12, Button9)
+        Vista.Boton(20, Button9)
     End Sub
     Private Sub Button10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button10.Click
-        Vista.Boton(13, Button10)
+        Vista.Boton(21, Button10)
     End Sub
     Private Sub Button12_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button12.Click
-        Vista.Boton(14, Button12)
+        Vista.Boton(6, Button12)
     End Sub
     Private Sub Button16_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button16.Click
-        Vista.Boton(15, Button16)
+        Vista.Boton(7, Button16)
     End Sub
     Private Sub Button13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button13.Click
-        Vista.Boton(16, Button13)
+        Vista.Boton(8, Button13)
     End Sub
     Private Sub Button17_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button17.Click
-        Vista.Boton(17, Button17)
+        Vista.Boton(9, Button17)
     End Sub
     Private Sub Button15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button15.Click
-        Vista.Boton(18, Button15)
+        Vista.Boton(10, Button15)
     End Sub
     Private Sub Button11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button11.Click
-        Vista.Boton(19, Button11)
+        Vista.Boton(11, Button11)
     End Sub
     Private Sub Button18_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button18.Click
-        Vista.Boton(20, Button18)
+        Vista.Boton(12, Button18)
     End Sub
     Private Sub Button14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button14.Click
-        Vista.Boton(21, Button14)
+        Vista.Boton(13, Button14)
     End Sub
     Private Sub Button39_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button39.Click
         Vista.Eje(0)
@@ -442,127 +465,98 @@ Public Class Principal
 #Region "Eventos propiedades"
 
 #Region "Eventos panel ejes"
-
     Private Sub RadioButton23_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton23.CheckedChanged
-        If RadioButton23.Checked Then Vista.CambiarMapaEjes(0)
+        If RadioButton23.Checked And eventos Then Vista.CambiarMapaEjes(0)
     End Sub
     Private Sub RadioButton22_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton22.CheckedChanged
-        If RadioButton22.Checked Then Vista.CambiarMapaEjes(3)
+        If RadioButton22.Checked And eventos Then Vista.CambiarMapaEjes(3)
     End Sub
     Private Sub RadioButton24_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton24.CheckedChanged
-        If RadioButton24.Checked Then Vista.CambiarMapaEjes(1)
+        If RadioButton24.Checked And eventos Then Vista.CambiarMapaEjes(1)
     End Sub
     Private Sub RadioButton21_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton21.CheckedChanged
-        If RadioButton21.Checked Then Vista.CambiarMapaEjes(2)
+        If RadioButton21.Checked And eventos Then Vista.CambiarMapaEjes(2)
     End Sub
 #End Region
 
 #Region "Eventos panel rotatorios"
     Private Sub RadioButton19_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton19.CheckedChanged
-        If RadioButton19.Checked Then Vista.CambiarMapaRot(1)
+        If RadioButton19.Checked And eventos Then Vista.CambiarMapaRot(1)
     End Sub
     Private Sub RadioButton20_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton20.CheckedChanged
-        If RadioButton20.Checked Then Vista.CambiarMapaRot(2)
+        If RadioButton20.Checked And eventos Then Vista.CambiarMapaRot(2)
     End Sub
     Private Sub CheckBox5_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox5.CheckedChanged
-        Vista.CambiarMapaRot2()
+        If eventos Then Vista.CambiarMapaRot(0)
     End Sub
 #End Region
 
 #Region "Eventos panel ad"
     Private Sub RadioButton17_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton17.CheckedChanged
-        If RadioButton17.Checked Then
-            Vista.CambiarAD(True)
-        End If
+        If RadioButton17.Checked And eventos Then Vista.CambiarAD(True)
     End Sub
     Private Sub RadioButton18_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton18.CheckedChanged
-        If RadioButton18.Checked Then
-            Vista.CambiarAD(False)
-        End If
+        If RadioButton18.Checked And eventos Then Vista.CambiarAD(False)
     End Sub
 #End Region
 
 #Region "Eventos panel Modos"
     Private Sub CheckBox1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox1.CheckedChanged
-        Vista.CuadroModosPinkie(CheckBox1.Checked)
-    End Sub
-    Private Sub CheckBox2_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox2.CheckedChanged
-        Vista.CuadroModosModo(CheckBox2.Checked)
-    End Sub
-    Private Sub CheckBox3_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox3.CheckedChanged
-        Vista.CuadroModosAuxModo(CheckBox3.Checked)
-    End Sub
-    Private Sub CheckBox4_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox4.CheckedChanged
-        Vista.CuadroModosToggle(CheckBox4.Checked)
+        If eventos Then Vista.CambiarPinkie(0, CheckBox1.Checked)
     End Sub
     Private Sub RadioButton3_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton3.CheckedChanged
-        If RadioButton3.Checked Then
-            Vista.CambiarPinkie(True)
-        End If
+        If RadioButton3.Checked And eventos Then Vista.CambiarPinkie(1, True)
     End Sub
     Private Sub RadioButton4_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton4.CheckedChanged
-        If RadioButton4.Checked Then
-            Vista.CambiarPinkie(False)
-        End If
+        If RadioButton4.Checked And eventos Then Vista.CambiarPinkie(1, False)
+    End Sub
+    Private Sub CheckBox2_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox2.CheckedChanged
+        If eventos Then Vista.CambiarModo(0, CheckBox2.Checked)
     End Sub
     Private Sub RadioButton5_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton5.CheckedChanged
-        If RadioButton5.Checked Then
-            Vista.CambiarModo(0)
-        End If
+        If RadioButton5.Checked And eventos Then Vista.CambiarModo(1, 0)
     End Sub
     Private Sub RadioButton6_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton6.CheckedChanged
-        If RadioButton6.Checked Then
-            Vista.CambiarModo(1)
-        End If
+        If RadioButton6.Checked And eventos Then Vista.CambiarModo(1, 1)
     End Sub
     Private Sub RadioButton7_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton7.CheckedChanged
-        If RadioButton7.Checked Then
-            Vista.CambiarModo(2)
-        End If
+        If RadioButton7.Checked And eventos Then Vista.CambiarModo(1, 2)
+    End Sub
+    Private Sub CheckBox3_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox3.CheckedChanged
+        If eventos Then Vista.CambiarModoAux(0, CheckBox3.Checked)
     End Sub
     Private Sub RadioButton9_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton9.CheckedChanged
-        If RadioButton9.Checked Then
-            Vista.CambiarModoAux(0)
-        End If
+        If RadioButton9.Checked And eventos Then Vista.CambiarModoAux(1, 0)
     End Sub
     Private Sub RadioButton8_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton8.CheckedChanged
-        If RadioButton8.Checked Then
-            Vista.CambiarModoAux(1)
-        End If
+        If RadioButton8.Checked And eventos Then Vista.CambiarModoAux(1, 1)
     End Sub
     Private Sub RadioButton10_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton10.CheckedChanged
-        If RadioButton10.Checked Then
-            Vista.CambiarModoAux(2)
-        End If
+        If RadioButton10.Checked And eventos Then Vista.CambiarModoAux(1, 2)
+    End Sub
+    Private Sub CheckBox4_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox4.CheckedChanged
+        If eventos Then Vista.CambiarToggle(0, CheckBox4.Checked)
     End Sub
     Private Sub NumericUpDown1_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NumericUpDown1.ValueChanged
-        Vista.CambiarToggle(NumericUpDown1.Value)
+        If eventos Then Vista.CambiarToggle(1, NumericUpDown1.Value)
     End Sub
     Private Sub RadioButton11_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton11.CheckedChanged
-        If RadioButton11.Checked Then
-            Vista.CambiarPresInc(True)
-        End If
+        If RadioButton11.Checked And eventos Then Vista.CambiarPresInc(True)
     End Sub
     Private Sub RadioButton12_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton12.CheckedChanged
-        If RadioButton12.Checked Then
-            Vista.CambiarPresInc(False)
-        End If
+        If RadioButton12.Checked And eventos Then Vista.CambiarPresInc(False)
     End Sub
 #End Region
 
 #Region "Eventos panel funcionamiento"
     Private Sub RadioButton1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton1.CheckedChanged
-        If RadioButton1.Checked Then
-            Vista.CambiarFuncionamiento(False)
-        End If
+        If RadioButton1.Checked And eventos Then Vista.CambiarFuncionamiento(False)
     End Sub
     Private Sub RadioButton2_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton2.CheckedChanged
-        If RadioButton2.Checked Then
-            Vista.CambiarFuncionamiento(True)
-        End If
+        If RadioButton2.Checked And eventos Then Vista.CambiarFuncionamiento(True)
     End Sub
     Private Sub NumericUpDown2_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NumericUpDown2.ValueChanged
-        Vista.CambiarSensibilidad(NumericUpDown2.Value)
+        If eventos Then Vista.CambiarSensibilidad(NumericUpDown2.Value)
     End Sub
     Private Sub Button44_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button44.Click
         Dim b As New EditorBandas(Me)
@@ -576,29 +570,20 @@ Public Class Principal
         m.ShowDialog(Me)
     End Sub
     Private Sub Button42_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button42.Click
-        If ComboBox1.SelectedIndex <> -1 Then
+        If ComboBox1.SelectedIndex > 0 Then
             Dim m As New EditorMacros(ComboBox1.SelectedIndex, Me)
             m.ShowDialog(Me)
         End If
     End Sub
     Private Sub Button43_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button43.Click
-        If ComboBox1.SelectedIndex <> -1 Then
+        If ComboBox1.SelectedIndex > 0 Then
             datos.QuitarIndice(ComboBox1.SelectedIndex)
             ComboBox1.Items.RemoveAt(ComboBox1.SelectedIndex)
             ComboBox1.SelectedIndex = 0
         End If
     End Sub
     Private Sub ComboBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBox1.SelectedIndexChanged
-        If ComboBox1.SelectedIndex <> -1 Then
-            Vista.CambiarMacro(ComboBox1.SelectedIndex)
-            If ComboBox1.SelectedIndex = 0 Then
-                Button42.Enabled = False
-                Button43.Enabled = False
-            Else
-                Button42.Enabled = True
-                Button43.Enabled = True
-            End If
-        End If
+        If ComboBox1.SelectedIndex <> -1 And eventos Then Vista.CambiarMacro(ComboBox1.SelectedIndex)
     End Sub
 #End Region
 

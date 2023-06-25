@@ -8,7 +8,7 @@ SOURCES=hidfilter.c     \
 		ioctl.c		\
 		io.c		\
 		acciones.c	\
-		cola.cpp	\
+		cola.c		\
 		control.c	\
 		mapa.c		\
 		raton.c

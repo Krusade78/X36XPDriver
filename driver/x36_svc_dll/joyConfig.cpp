@@ -80,8 +80,10 @@ bool CjoyConfig::Comprobar()
 	const size_t hidlen=sizeof(hid3600);
 	char* interfaz = NULL;
 	BYTE* gehbuff=new BYTE[sizeof(GAMEENUM_EXPOSE_HARDWARE)+hidlen];
-	GAMEENUM_EXPOSE_HARDWARE* geh=(GAMEENUM_EXPOSE_HARDWARE*)gehbuff;
-	if(!LeerRegistro(&interfaz,&gehbuff,sizeof(GAMEENUM_EXPOSE_HARDWARE)+hidlen)) return false;
+	if(!LeerRegistro(&interfaz,&gehbuff,sizeof(GAMEENUM_EXPOSE_HARDWARE)+hidlen)) {
+		delete[] gehbuff; gehbuff=NULL;
+		return false;
+	}
 
 	HANDLE driver = CreateFile(interfaz,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,0,NULL);
 	if(driver==INVALID_HANDLE_VALUE) {
@@ -102,9 +104,9 @@ bool CjoyConfig::Comprobar()
 		return false;
 	}
 
-	geh->PortHandle=gpd.PortHandle;
-	geh->HardwareHandle=0;
-	if(DeviceIoControl(driver,IOCTL_GAMEENUM_EXPOSE_HARDWARE,geh,sizeof(GAMEENUM_EXPOSE_HARDWARE)+hidlen,geh,sizeof(GAMEENUM_EXPOSE_HARDWARE)+hidlen,&ret,NULL)){
+	((GAMEENUM_EXPOSE_HARDWARE*)gehbuff)->PortHandle=gpd.PortHandle;
+	((GAMEENUM_EXPOSE_HARDWARE*)gehbuff)->HardwareHandle=0;
+	if(DeviceIoControl(driver,IOCTL_GAMEENUM_EXPOSE_HARDWARE,gehbuff,sizeof(GAMEENUM_EXPOSE_HARDWARE)+hidlen,gehbuff,sizeof(GAMEENUM_EXPOSE_HARDWARE)+hidlen,&ret,NULL)){
 		GuardarRegistro(gehbuff,sizeof(GAMEENUM_EXPOSE_HARDWARE)+hidlen);
 	}
 
